@@ -39,7 +39,6 @@ class CartService
 
     public function addToCart($params)
     {
-
         $this->CartFilter->setData($params);
         $filteredParamData = $this->CartFilter->getValues();
 
@@ -54,7 +53,7 @@ class CartService
             $cartData['customer_id'] = 37;
             $cartData['order_datetime'] = date("Y-m-d H:i:s");
             $sub_total = $productDetails['price'] * $filteredParamData['qty'];
-            $cartData['sub_total'] = $sub_total;  //compute sub_total not yet done
+            $cartData['sub_total'] = $sub_total;  
             $filteredParamData['weight'] = $productDetails['weight'];
             $filteredParamData['price'] = $productDetails['price'];
             $filteredParamData['unit_price'] = $productDetails['price'];
@@ -68,20 +67,15 @@ class CartService
                 $cartId = $this->CartTable->addCart($this->Cart);
                 $filteredParamData['cart_id'] = $cartId;
                 $this->CartItems->exchangeArray($filteredParamData);
-                return $this->CartItemsTable->addCartItem($this->CartItems);
-
+                return array("isValid" => true, "data" => $this->CartItemsTable->addCartItem($this->CartItems));
             } else {
-              
                 //get existing cart_id
                 //save  cart_id,product_id and quantity in cart_items
                 //else insert only in cart items
-                $cartData['sub_total'] = $sub_total;
                 $filteredParamData['cart_id'] = $existingCart['cart_id'];
                 $this->CartItems->exchangeArray($filteredParamData);
-                var_dump( $this->CartItemsTable->addCartItem($this->CartItems));
-                exit;
-                return;
-
+               
+                return array("isValid" => true, "data" => $this->CartItemsTable->addCartItem($this->CartItems));
             }
         }
 

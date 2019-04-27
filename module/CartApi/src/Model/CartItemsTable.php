@@ -10,9 +10,9 @@ class CartItemsTable
 
     public function __construct(TableGateway $tableGateway)
     {
-     
+
         $this->tableGateway = $tableGateway;
-     
+
     }
 
     public function getCartItemList()
@@ -29,6 +29,23 @@ class CartItemsTable
     {
         $this->tableGateway->insert(get_object_vars($cart));
         return $this->tableGateway->getLastInsertValue();
+    }
+
+    public function countCartTotalPriceByCartId($id)
+    {
+        $sql = $this->tableGateway->getSql();
+        $select = $sql->select()
+            ->columns(array('price' => new \Zend\Db\Sql\Expression('SUM(price)')))
+            ->where(array("cart_id" => $id));
+
+        $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
+
+        foreach ($resultSet as $row) {
+            $total = $row;
+        }
+        // Use selectWith as a shortcut to get a resultSet for the above select
+        return $total;
+
     }
 
 }
