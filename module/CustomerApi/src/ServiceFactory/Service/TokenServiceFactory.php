@@ -4,13 +4,13 @@
 namespace CustomerApi\ServiceFactory\Service;
 
 
-use CustomerApi\Service\AccessTokenService;
+use CustomerApi\Service\TokenService;
 use Psr\Container\ContainerInterface;
 
-class AccessTokenServiceFactory
+class TokenServiceFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new AccessTokenService();
+        return new TokenService();
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace JobApi;
 
-use JobApi\Controller\Rest\AccessTokenController;
+use JobApi\Controller\Rest\TokenController;
 use Zend\Mvc\Router\Http\Segment;
 
 return array(

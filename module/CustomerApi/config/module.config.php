@@ -3,7 +3,7 @@ namespace CustomerApi;
 
 use CustomerApi\Controller\LoginController;
 use CustomerApi\Controller\Registration\RegistrationController;
-use CustomerApi\Controller\Rest\AccessTokenController;
+use CustomerApi\Controller\Rest\TokenController;
 use CustomerApi\Filter\Login\LoginFilter;
 use CustomerApi\Filter\Registration\RegistrationFilter;
 use CustomerApi\Model\Customers;
@@ -11,10 +11,10 @@ use CustomerApi\Model\CustomersTable;
 use CustomerApi\ServiceFactory\Controller\Login\LoginControllerFactory;
 use CustomerApi\ServiceFactory\Controller\Registration\RegistrationControllerFactory;
 use CustomerApi\ServiceFactory\Model\CustomersTableFactory;
-use CustomerApi\ServiceFactory\Service\AccessTokenServiceFactory;
+use CustomerApi\ServiceFactory\Service\TokenServiceFactory;
 use CustomerApi\ServiceFactory\Service\Login\LoginServiceFactory;
 use CustomerApi\ServiceFactory\Service\Registration\RegistrationServiceFactory;
-use CustomerApi\Service\AccessTokenService;
+use CustomerApi\Service\TokenService;
 use CustomerApi\Service\Login\LoginService;
 use CustomerApi\Service\Registration\RegistrationService;
 use Zend\Mvc\Router\Http\Segment;
@@ -59,7 +59,7 @@ return array(
         ),
 
         'invokables' => array(
-            AccessTokenController::class => AccessTokenController::class,
+            TokenController::class => TokenController::class,
 
         ),
     ),
@@ -68,7 +68,7 @@ return array(
             CustomersTable::class => CustomersTableFactory::class,
             RegistrationService::class => RegistrationServiceFactory::class,
             LoginService::class => LoginServiceFactory::class,
-            AccessTokenService::class => AccessTokenServiceFactory::class,
+            TokenService::class => TokenServiceFactory::class,
         ),
         'invokables' => array(
             RegistrationFilter::class => RegistrationFilter::class,

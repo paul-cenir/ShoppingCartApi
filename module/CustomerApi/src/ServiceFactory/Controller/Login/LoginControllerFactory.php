@@ -3,7 +3,7 @@
 namespace CustomerApi\ServiceFactory\Controller\Login;
 
 use CustomerApi\Controller\Login\LoginController;
-use CustomerApi\Service\AccessTokenService;
+use CustomerApi\Service\TokenService;
 use CustomerApi\Service\Login\LoginService;
 use Psr\Container\ContainerInterface;
 
@@ -14,8 +14,8 @@ class LoginControllerFactory
         $container = $container->getServiceLocator(); // remove if zf3
 
         $LoginService = $container->get(LoginService::class);
-        $AccessTokenService = $container->get(AccessTokenService::class);
+        $TokenService = $container->get(TokenService::class);
 
-        return new LoginController($LoginService,$AccessTokenService);
+        return new LoginController($LoginService,$TokenService);
     }
 }

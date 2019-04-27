@@ -5,7 +5,7 @@ namespace CustomerApi\ServiceFactory\Controller\Registration;
 use CustomerApi\Controller\Registration\RegistrationController;
 use CustomerApi\Model\Customers;
 use CustomerApi\Model\CustomersTable;
-use CustomerApi\Service\AccessTokenService;
+use CustomerApi\Service\TokenService;
 use CustomerApi\Service\Registration\RegistrationService;
 use Psr\Container\ContainerInterface;
 
@@ -17,8 +17,8 @@ class RegistrationControllerFactory
         $CustomersTable = $container->get(CustomersTable::class);
         $Customers = $container->get(Customers::class);
         $RegistrationService = $container->get(RegistrationService::class);
-        $AccessTokenService = $container->get(AccessTokenService::class);
+        $TokenService = $container->get(TokenService::class);
 
-        return new RegistrationController($Customers, $CustomersTable, $RegistrationService, $AccessTokenService);
+        return new RegistrationController($Customers, $CustomersTable, $RegistrationService, $TokenService);
     }
 }

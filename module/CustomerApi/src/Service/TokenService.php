@@ -9,7 +9,7 @@ namespace CustomerApi\Service;
 
 use \Firebase\JWT\JWT;
 
-class AccessTokenService
+class TokenService
 {
 
     private $privateKey = <<<EOD
@@ -43,7 +43,7 @@ EOD;
     {
     }
 
-    public function generateAccessToken(array $tokenPayload)
+    public function generateToken(array $tokenPayload)
     {
 
         $token = array(
@@ -60,7 +60,7 @@ EOD;
         return $jwt;
     }
 
-    public function validateAccessToken($jwt)
+    public function validateToken($jwt)
     {
         try {
             $decoded = JWT::decode($jwt, $this->publicKey, array('RS256'));

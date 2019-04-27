@@ -10,9 +10,9 @@ class ProductsTable
 
     public function __construct(TableGateway $tableGateway)
     {
-        
+
         $this->tableGateway = $tableGateway;
-       
+
     }
 
     public function getProductList()
@@ -22,7 +22,7 @@ class ProductsTable
 
     public function getProductById($id)
     {
-        return $this->tableGateway->select(['product_id' => $id])->current();
+        return get_object_vars($this->tableGateway->select(['product_id' => $id])->current());
     }
 
 }

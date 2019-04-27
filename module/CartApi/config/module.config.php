@@ -5,7 +5,14 @@ use Zend\Mvc\Router\Http\Segment;
 use CartApi\Controller\CartController;
 use CartApi\ServiceFactory\Controller\CartControllerFactory;
 use CartApi\ServiceFactory\Model\CartTableFactory;
+use CartApi\ServiceFactory\Model\CartItemsTableFactory;
 use CartApi\Model\CartTable;
+use CartApi\Model\Cart;
+use CartApi\Model\CartItems;
+use CartApi\Model\CartItemsTable;
+use CartApi\Service\CartService;
+use CartApi\ServiceFactory\Service\CartServiceFactory;
+use CartApi\Filter\CartFilter;
 
 return array(
     'router' => [
@@ -38,9 +45,13 @@ return array(
     'service_manager' => array(
         'factories' => array(
             CartTable::class => CartTableFactory::class,
+            CartItemsTable::class => CartItemsTableFactory::class,
+            CartService::class => CartServiceFactory::class,
         ),
         'invokables' => array(
-
+            CartFilter::class => CartFilter::class,
+            Cart::class => Cart::class,
+            CartItems::class => CartItems::class,
         ),
     ),
     'view_manager' => array(
