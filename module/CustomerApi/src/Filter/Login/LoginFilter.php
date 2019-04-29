@@ -9,12 +9,12 @@ class LoginFilter extends InputFilter
 {
     public function __construct()
     {
-        
+
         $this->add(array(
             'name' => 'email',
             'required' => true,
             'filters' => array(
-                array('name' => 'StripTags')
+                array('name' => 'StripTags'),
             ),
             'validators' => array(
                 array(
@@ -24,15 +24,26 @@ class LoginFilter extends InputFilter
                             NotEmpty::IS_EMPTY => 'Email is required.',
                         ),
                     ),
+
+                ),
+                array(
+                    'name' => 'EmailAddress',
+                    'options' => array(
+                        'domain' => 'true',
+                        'hostname' => 'true',
+                        'mx' => 'true',
+                        'deep' => 'true',
+                        'message' => 'Invalid email address',
+                    )
                 ),
             ),
         ));
-    
+
         $this->add(array(
             'name' => 'password',
             'required' => true,
             'filters' => array(
-                array('name' => 'StripTags')
+                array('name' => 'StripTags'),
             ),
             'validators' => array(
                 array(

@@ -9,8 +9,6 @@ class RegistrationFilter extends InputFilter
 {
     public function __construct()
     {
-
-   
         $this->add(array(
             'name' => 'email',
             'required' => true,
@@ -29,9 +27,20 @@ class RegistrationFilter extends InputFilter
                         ),
                     ),
                 ),
+                array(
+                    'name' => 'EmailAddress',
+                    'options' => array(
+                        'domain' => 'true',
+                        'hostname' => 'true',
+                        'mx' => 'true',
+                        'deep' => 'true',
+                        'message' => 'Invalid email address',
+                    )
+                ),
             ),
+        
         ));
-    
+
         $this->add(array(
             'name' => 'password',
             'required' => true,
@@ -59,7 +68,7 @@ class RegistrationFilter extends InputFilter
                 array('name' => 'StripTags'),
                 array(
                     'name' => 'StringTrim',
-                )
+                ),
                 // array(
                 //     'name' => 'Ucwords',
                 // ),
@@ -76,7 +85,7 @@ class RegistrationFilter extends InputFilter
                 ),
             ),
         ));
-    
+
         $this->add(array(
             'name' => 'last_name',
             'required' => true,
@@ -110,10 +119,18 @@ class RegistrationFilter extends InputFilter
                     'name' => 'StringTrim',
                 ),
             ),
-            
+
         ));
-  
-     
-        
+
+        $this->add(array(
+            'name' => 'company_name',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array(
+                    'name' => 'StringTrim',
+                ),
+            ),
+        ));
     }
 }

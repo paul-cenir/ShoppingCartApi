@@ -44,41 +44,44 @@ class CartService
 
         if (!$this->CartFilter->isValid()) {
             return array("isValid" => false, "data" => $this->CartFilter->getMessages());
-
         } else {
-            $existingCart = $this->CartTable->getCartByCustomerId(37);
+            
+            $existingCart = $this->CartTable->getCartByCustomerId($filteredParamData['customer_id']);
             $productDetails = $this->ProductTable->getProductById($filteredParamData['product_id']);
-            $customerDtetails = $this->CustomersTable->getCustomerById(1);
+            $customerDtetails = $this->CustomersTable->getCustomerById($filteredParamData['customer_id']);
             $cartData = array_merge($customerDtetails, $filteredParamData);
-            $cartData['customer_id'] = 37;
-            $cartData['order_datetime'] = date("Y-m-d H:i:s");
+            $cartItemData = array_merge($productDetails, $filteredParamData);
             $sub_total = $productDetails['price'] * $filteredParamData['qty'];
-            $cartData['sub_total'] = $sub_total;  
-            $filteredParamData['weight'] = $productDetails['weight'];
-            $filteredParamData['price'] = $productDetails['price'];
-            $filteredParamData['unit_price'] = $productDetails['price'];
 
             if (!$existingCart) {
-
                 //insert in cart table and cart items
                 //customer_id  save in  carts return cart_id
                 //save  cart_id,product_id and quantity in cart_items
+                $cartData['sub_total'] = $sub_total;
+                $cartData['total_amount'] = $sub_total;
                 $this->Cart->exchangeArray($cartData);
                 $cartId = $this->CartTable->addCart($this->Cart);
-                $filteredParamData['cart_id'] = $cartId;
-                $this->CartItems->exchangeArray($filteredParamData);
+                $cartItemData['cart_id'] = $cartId;
+                $this->CartItems->exchangeArray($cartItemData);
                 return array("isValid" => true, "data" => $this->CartItemsTable->addCartItem($this->CartItems));
             } else {
                 //get existing cart_id
                 //save  cart_id,product_id and quantity in cart_items
                 //else insert only in cart items
-                $filteredParamData['cart_id'] = $existingCart['cart_id'];
-                $this->CartItems->exchangeArray($filteredParamData);
-               
-                return array("isValid" => true, "data" => $this->CartItemsTable->addCartItem($this->CartItems));
+                //update the sub_total in cart
+                $existingCart = get_object_vars($existingCart);
+                $cartItemData['cart_id'] = $existingCart['cart_id'];
+                $this->CartItems->exchangeArray($cartItemData);
+                $addedCartItem = $this->CartItemsTable->addCartItem($this->CartItems);
+                $totalAmount = $this->CartItemsTable->countCartTotalPriceByCartId($existingCart['cart_id']);
+                $cartData['sub_total'] = $totalAmount;
+                $cartData['total_amount'] = $totalAmount;
+                $cartData['cart_id'] = $existingCart['cart_id'];
+                $this->Cart->exchangeArray($cartData);
+                $this->CartTable->updateCartById($this->Cart);
+                return array("isValid" => true, "data" => $addedCartItem);
             }
         }
-
     }
 
 }

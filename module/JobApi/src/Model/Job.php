@@ -1,10 +1,10 @@
 <?php
 
-namespace CartApi\Model;
+namespace JobApi\Model;
 
-class Cart
+class Job
 {
-    public $cart_id;
+    public $job_id;
     public $customer_id;
     public $order_datetime;
     public $sub_total;
@@ -30,14 +30,14 @@ class Cart
 
     public function exchangeArray(array $data)
     {
-        $this->cart_id = !empty($data['cart_id']) ? $data['cart_id'] : null;
+        $this->job_id = !empty($data['job_id']) ? $data['job_id'] : null;
         $this->customer_id = !empty($data['customer_id']) ? $data['customer_id'] : null;
-        $this->order_datetime = !empty($data['order_datetime']) ? $data['order_datetime'] : date("Y-m-d H:i:s");
+        $this->order_datetime = !empty($data['order_datetime']) ? $data['order_datetime'] : null;
         $this->sub_total = !empty($data['sub_total']) ? $data['sub_total'] : null;
         $this->taxable_amount = !empty($data['taxable_amount']) ? $data['taxable_amount'] : '';
         $this->discount = !empty($data['discount']) ? $data['discount'] : 0;
         $this->tax = !empty($data['tax']) ? $data['tax'] : 0;
-        $this->shipping_total = !empty($data['shipping_total']) ? $data['shipping_total'] : 0;
+        $this->shipping_total = !empty($data['shipping_total']) ? $data['shipping_total'] : '';
         $this->total_amount = !empty($data['total_amount']) ? $data['total_amount'] : 0;
         $this->total_weight = !empty($data['total_weight']) ? $data['total_weight'] : 0;
         $this->company_name = !empty($data['company_name']) ? $data['company_name'] : null;
@@ -53,6 +53,7 @@ class Cart
         $this->shipping_city = !empty($data['shipping_city']) ? $data['shipping_city'] : '';
         $this->shipping_state = !empty($data['shipping_state']) ? $data['shipping_state'] : '';
         $this->shipping_country = !empty($data['shipping_country']) ? $data['shipping_country'] : '';
+
     }
 
     public function getArrayCopy()

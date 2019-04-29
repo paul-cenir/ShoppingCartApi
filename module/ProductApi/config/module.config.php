@@ -10,10 +10,10 @@ use Zend\Mvc\Router\Http\Segment;
 return array(
     'router' => [
         'routes' => [
-            'products' => [
+            'product' => [
                 'type' => Segment::class,
                 'options' => [
-                    'route' => '/products[/:id]',
+                    'route' => '/product[/:id]',
                     'defaults' => [
                         'controller' => ProductController::class,
                     ],

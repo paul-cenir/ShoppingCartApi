@@ -47,5 +47,14 @@ class CartFilter extends InputFilter
                 ),
             ),
         ));
+
+        $this->add(array(
+            'name' => 'customer_id',
+            'required' => false,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array( 'name' => 'StringTrim'),
+            ),
+        ));
     }
 }
