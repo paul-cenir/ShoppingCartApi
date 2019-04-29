@@ -15,7 +15,7 @@ class JobItems
     public function exchangeArray(array $data)
     {
         $this->job_item_id = !empty($data['job_item_id']) ? $data['job_item_id'] : null;
-        $this->job_id = !empty($data['job_id']) ? $data['Job_id'] : null;
+        $this->job_id = !empty($data['job_id']) ? $data['job_id'] : null;
         $this->product_id = !empty($data['product_id']) ? $data['product_id'] : null;
         $this->weight = !empty($data['weight']) ? $data['weight'] : null;
         $this->qty = !empty($data['qty']) ? $data['qty'] : null;

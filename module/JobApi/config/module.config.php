@@ -10,8 +10,13 @@ use JobApi\Model\JobTable;
 use JobApi\Model\Job;
 use JobApi\Model\JobItems;
 use JobApi\Model\JobItemsTable;
+use JobApi\Model\Shipment;
+use JobApi\Model\ShipmentTable;
+use JobApi\ServiceFactory\Model\ShipmentTableFactory;
 use JobApi\Service\JobService;
 use JobApi\ServiceFactory\Service\JobServiceFactory;
+use JobApi\Service\ShipmentService;
+use JobApi\ServiceFactory\Service\ShipmentServiceFactory;
 use JobApi\Filter\JobFilter;
 
 return array(
@@ -46,11 +51,14 @@ return array(
         'factories' => array(
             JobTable::class => JobTableFactory::class,
             JobItemsTable::class => JobItemsTableFactory::class,
+            ShipmentTable::class => ShipmentTableFactory::class,
             JobService::class => JobServiceFactory::class,
+            ShipmentService::class => ShipmentServiceFactory::class,
         ),
         'invokables' => array(
             JobFilter::class => JobFilter::class,
             Job::class => Job::class,
+            Shipment::class => Shipment::class,
             JobItems::class => JobItems::class,
         ),
     ),
