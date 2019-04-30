@@ -51,10 +51,7 @@ class JobController extends AbstractRestfulController
 
     public function getList()
     {
-     
-        $this->ShipmentService->countShippingTotal();
-     
-        return new JsonModel([]);
+        return new JsonModel([$this->ShipmentService->computeShippingTotal()]);
     }
 
     public function update($id, $data)

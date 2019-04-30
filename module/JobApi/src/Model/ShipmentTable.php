@@ -21,4 +21,19 @@ class ShipmentTable
         return $this->tableGateway->select()->toArray();
     }
 
+    public function getHeaviestWeightByShippingMethod($shippingMethod)
+    {
+        $sql = $this->tableGateway->getSql();
+        $select = $sql->select()
+            ->columns(
+                array('max_weight' => new \Zend\Db\Sql\Expression('MAX(max_weight)'),
+                    'shipping_rate' => new \Zend\Db\Sql\Expression('MAX(shipping_rate)'),
+                )
+            )
+            ->where(array("shipping_method" => $shippingMethod));
+
+        $rowData = $this->tableGateway->selectWith($select)->toArray();
+
+        return $rowData[0];
+    }
 }

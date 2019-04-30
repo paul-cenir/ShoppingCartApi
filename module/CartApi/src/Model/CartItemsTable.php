@@ -38,13 +38,11 @@ class CartItemsTable
             ->columns(array('price' => new \Zend\Db\Sql\Expression('SUM(price * qty)')))
             ->where(array("cart_id" => $id));
 
-        $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
+        $subTotal = $this->tableGateway->selectWith($select)->toArray();
 
-        foreach ($resultSet as $row) {
-            $subTotal = $row;
-        }
+       
         // Use selectWith as a shortcut to get a resultSet for the above select
-        return $subTotal['price'];
+        return $subTotal[0]['price'];
     }
 
 }

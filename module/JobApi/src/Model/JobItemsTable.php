@@ -40,12 +40,8 @@ class JobItemsTable
             ->columns(array('price' => new \Zend\Db\Sql\Expression('SUM(price)')))
             ->where(array("Job_id" => $id));
 
-        $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
-
-        foreach ($resultSet as $row) {
-            $total = $row;
-        }
-        return $total;
+        $rowData = $this->tableGateway->selectWith($select)->toArray();
+        return $rowData;
     }
 
     public function copyCartItemsToJobItems($cartId, $jobOrderId)

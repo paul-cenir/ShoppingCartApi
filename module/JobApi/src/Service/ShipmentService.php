@@ -13,32 +13,27 @@ class ShipmentService
         $this->ShipmentTable = $ShipmentTable;
     }
 
-    public function countShippingTotal()
+    public function computeShippingTotal()
     {
-      
-        //get total weight in all cart items
-        //get shipping method
-        //find the range base on the range of min  and max
-        //if
-        $totalWeight = 41;
-        $shippingMethod = 'Ground';
+        $shippingMethod = 'Expedited';
+        $totalWeight = 40;
+        $shippingTotal = [];
+        $heaviestWeight = $this->ShipmentTable->getHeaviestWeightByShippingMethod($shippingMethod);
         $shipmentList = $this->ShipmentTable->getShipmentList();
 
-        foreach ($shipmentList as $key => $row) {
-            
-            if($row['min_weight'] <= $totalWeight && $row['max_weight'] >= $totalWeight && $row['shipping_method'] == $shippingMethod ) {
-                \Zend\Debug\Debug::dump($row['shipping_rate']);
+        while ($totalWeight > 0) {
+            if ($heaviestWeight['max_weight'] <= $totalWeight) {
+                $totalWeight -= $heaviestWeight['max_weight'];
+                array_push($shippingTotal, $heaviestWeight['shipping_rate']);
+            } else {
+                foreach ($shipmentList as $key => $row) {
+                    if ($row['min_weight'] <= $totalWeight && $row['max_weight'] >= $totalWeight && $row['shipping_method'] == $shippingMethod) {
+                        $totalWeight -= $row['max_weight'];
+                        array_push($shippingTotal, $row['shipping_rate']);
+                    }
+                }
             }
-
-          
         }
-        exit;
-
-        $totalWeight = 80;
-        while ($x <= 5) {
-
-        }
-
+        return array_sum($shippingTotal);
     }
-
 }

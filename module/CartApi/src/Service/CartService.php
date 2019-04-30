@@ -45,7 +45,6 @@ class CartService
         if (!$this->CartFilter->isValid()) {
             return array("isValid" => false, "data" => $this->CartFilter->getMessages());
         } else {
-            
             $existingCart = $this->CartTable->getCartByCustomerId($filteredParamData['customer_id']);
             $productDetails = $this->ProductTable->getProductById($filteredParamData['product_id']);
             $customerDtetails = $this->CustomersTable->getCustomerById($filteredParamData['customer_id']);
