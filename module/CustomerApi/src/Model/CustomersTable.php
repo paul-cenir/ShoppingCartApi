@@ -21,7 +21,9 @@ class CustomersTable
 
     public function getCustomerById($id)
     {
-        return get_object_vars($this->tableGateway->select(['customer_id' => $id])->current());
+        $customerDetais = $this->tableGateway->select(['customer_id' => $id])->current();
+       
+        return $customerDetais? get_object_vars($customerDetais) : $customerDetais;
     }
 
     public function getCustomerByEmail($email)

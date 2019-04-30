@@ -48,8 +48,13 @@ class CartService
             $existingCart = $this->CartTable->getCartByCustomerId($filteredParamData['customer_id']);
             $productDetails = $this->ProductTable->getProductById($filteredParamData['product_id']);
             $customerDtetails = $this->CustomersTable->getCustomerById($filteredParamData['customer_id']);
-            $cartData = array_merge($customerDtetails, $filteredParamData);
-            $cartItemData = array_merge($productDetails, $filteredParamData);
+
+            if ($customerDtetails && $filteredParamData) {
+                $cartData = array_merge($customerDtetails, $filteredParamData);
+            }
+            if ($productDetails && $filteredParamData) {
+                $cartItemData = array_merge($productDetails, $filteredParamData);
+            }
             $sub_total = $productDetails['price'] * $filteredParamData['qty'];
 
             if (!$existingCart) {
@@ -62,7 +67,8 @@ class CartService
                 $cartId = $this->CartTable->addCart($this->Cart);
                 $cartItemData['cart_id'] = $cartId;
                 $this->CartItems->exchangeArray($cartItemData);
-                return array("isValid" => true, "data" => $this->CartItemsTable->addCartItem($this->CartItems));
+                $this->CartItemsTable->addCartItem($this->CartItems);
+                return array("isValid" => true, "data" => $cartId);
             } else {
                 //get existing cart_id
                 //save  cart_id,product_id and quantity in cart_items

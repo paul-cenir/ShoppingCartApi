@@ -36,7 +36,7 @@ class CartController extends AbstractRestfulController
         //else insert only in cart items
         //return success
         $params = $this->params()->fromPost();
-        $params['customer_id'] = 5;
+        $params['customer_id'] = 4;
         $addedCart = $this->CartService->addToCart($params);
         return new JsonModel($addedCart);
     }
