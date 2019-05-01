@@ -4,6 +4,7 @@ namespace CustomerApi\Filter\Registration;
 
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\NotEmpty;
+use Zend\Validator\Regex;
 
 class RegistrationFilter extends InputFilter
 {
@@ -119,7 +120,17 @@ class RegistrationFilter extends InputFilter
                     'name' => 'StringTrim',
                 ),
             ),
-
+            'validators' => array(
+                array(
+                    'name' => 'Regex',
+                    'options' => array(
+                        'pattern' => '/^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/',
+                        'messages' => array(
+                            \Zend\Validator\Regex::INVALID => 'Your error message.',
+                        ),
+                    ),
+                ),
+            ),
         ));
 
         $this->add(array(

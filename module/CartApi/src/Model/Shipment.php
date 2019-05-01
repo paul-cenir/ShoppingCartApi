@@ -1,6 +1,6 @@
 <?php
 
-namespace JobApi\Model;
+namespace CartApi\Model;
 
 class Shipment
 {

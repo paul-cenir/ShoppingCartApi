@@ -20,13 +20,12 @@ class LoginService
     {
       
         $this->LoginFilter->setData($params);
-        $filteredParamData = $this->LoginFilter->getValues();
         if (!$this->LoginFilter->isValid()) {
 
             return array("isValid" => false, "data" => $this->LoginFilter->getMessages());
         }
+        $filteredParamData = $this->LoginFilter->getValues();
         $customerData = get_object_vars($this->CustomersTable->getCustomerByEmail($filteredParamData['email']));
-
         $filteredParamData['customer_id'] = $customerData['customer_id'];
         $filteredParamData['first_name'] = $customerData['first_name'];
         $filteredParamData['last_name'] = $customerData['last_name'];

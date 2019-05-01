@@ -4,18 +4,19 @@ namespace CartApi\Filter;
 
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\NotEmpty;
+use Zend\Validator\Regex;
 
 class CartFilter extends InputFilter
 {
     public function __construct()
     {
-        
+
         $this->add(array(
             'name' => 'product_id',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -28,13 +29,13 @@ class CartFilter extends InputFilter
                 ),
             ),
         ));
-    
+
         $this->add(array(
             'name' => 'qty',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -42,6 +43,15 @@ class CartFilter extends InputFilter
                     'options' => array(
                         'messages' => array(
                             NotEmpty::IS_EMPTY => 'qty field is required.',
+                        ),
+                    ),
+                ),
+                array(
+                    'name' => 'Regex',
+                    'options' => array(
+                        'pattern' => '/^[1-9_\.\,]*$/',
+                        'messages' => array(
+                            \Zend\Validator\Regex::INVALID => 'Your error message.',
                         ),
                     ),
                 ),
@@ -53,7 +63,7 @@ class CartFilter extends InputFilter
             'required' => false,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
         ));
     }

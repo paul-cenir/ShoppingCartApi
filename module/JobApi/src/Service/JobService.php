@@ -39,14 +39,11 @@ class JobService
 
     public function addJob($params)
     {
-
         $this->JobFilter->setData($params);
-        $filteredParamData = $this->JobFilter->getValues();
-
         if (!$this->JobFilter->isValid()) {
             return array("isValid" => false, "data" => $this->JobFilter->getMessages());
         }
-
+        $filteredParamData = $this->JobFilter->getValues();
         $jobId = $this->JobTable->copyCartToJob($filteredParamData['cart_id']);
         if (!$jobId) {
             return array("isValid" => false, "data" => 'Invalid job id');

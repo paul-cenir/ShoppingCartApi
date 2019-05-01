@@ -51,10 +51,14 @@ class CartTable
         return $this->tableGateway->getLastInsertValue();
     }
 
-    public function updateCartById(Cart $cart)
+    public function updateCartById($data)
     {
-        $data = get_object_vars($cart);
         return $this->tableGateway->update($data, ['cart_id' => $data['cart_id']]);
     }
 
+    public function updateCartShippingById($data)
+    {
+       
+        return $this->tableGateway->update($data, ['cart_id' => $data['cart_id']]);
+    }
 }

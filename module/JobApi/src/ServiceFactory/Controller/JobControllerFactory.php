@@ -7,7 +7,6 @@ use JobApi\Model\JobTable;
 use Psr\Container\ContainerInterface;
 use JobApi\Model\JobItemsTable;
 use JobApi\Service\JobService;
-use JobApi\Service\ShipmentService;
 
 class JobControllerFactory
 {
@@ -17,8 +16,7 @@ class JobControllerFactory
         $JobTable = $container->get(JobTable::class);
         $JobItemsTable = $container->get(JobItemsTable::class);
         $JobService = $container->get(JobService::class);
-        $ShipmentService = $container->get(ShipmentService::class);
       
-        return new JobController($JobTable, $JobItemsTable, $JobService, $ShipmentService);
+        return new JobController($JobTable, $JobItemsTable, $JobService);
     }
 }

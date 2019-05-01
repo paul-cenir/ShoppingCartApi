@@ -20,17 +20,14 @@ class RegistrationService extends AbstractRestfulController
     public function getCustomerDataIfValid($params)
     {
         $this->RegistrationFilter->setData($params);
-        $filteredParamData = $this->RegistrationFilter->getValues();
         if (!$this->RegistrationFilter->isValid()) {
-
             return array("isValid" => false, "data" => $this->RegistrationFilter->getMessages());
         }
+        $filteredParamData = $this->RegistrationFilter->getValues();
         $customerData = $this->CustomersTable->getCustomerByEmail($filteredParamData['email']);
         if ($customerData) {
             return array("isValid" => false, "data" => "Email already exist");
         }
-
         return array("isValid" => true, "data" => $filteredParamData);
     }
-
 }

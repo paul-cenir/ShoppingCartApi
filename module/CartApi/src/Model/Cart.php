@@ -30,7 +30,7 @@ class Cart
 
     public function exchangeArray(array $data)
     {
-        $this->cart_id = !empty($data['cart_id']) ? $data['cart_id'] : null;
+        $this->cart_id = !empty($data['cart_id']) ? $data['cart_id'] : 0;
         $this->customer_id = !empty($data['customer_id']) ? $data['customer_id'] : null;
         $this->order_datetime = !empty($data['order_datetime']) ? $data['order_datetime'] : date("Y-m-d H:i:s");
         $this->sub_total = !empty($data['sub_total']) ? $data['sub_total'] : null;

@@ -18,7 +18,7 @@ class CartItems
         $this->cart_id = !empty($data['cart_id']) ? $data['cart_id'] : null;
         $this->product_id = !empty($data['product_id']) ? $data['product_id'] : null;
         $this->weight = !empty($data['weight']) ? $data['weight'] : null;
-        $this->qty = !empty($data['qty']) ? $data['qty'] : null;
+        $this->qty = !empty($data['qty']) ? $data['qty'] : 1;
         $this->unit_price = !empty($data['unit_price']) ? $data['unit_price'] : 0;
         $this->price = !empty($data['price']) ? $data['price'] : null;
     }

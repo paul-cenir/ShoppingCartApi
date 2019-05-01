@@ -31,7 +31,7 @@ class CartItemsTable
         return $this->tableGateway->getLastInsertValue();
     }
 
-    public function countCartTotalPriceByCartId($id)
+    public function computeCartTotalPriceByCartId($id)
     {
         $sql = $this->tableGateway->getSql();
         $select = $sql->select()
@@ -40,9 +40,20 @@ class CartItemsTable
 
         $subTotal = $this->tableGateway->selectWith($select)->toArray();
 
-       
-        // Use selectWith as a shortcut to get a resultSet for the above select
         return $subTotal[0]['price'];
     }
+
+    public function computeCartTotalWeightByCartId($id)
+    {
+        $sql = $this->tableGateway->getSql();
+        $select = $sql->select()
+            ->columns(array('weight' => new \Zend\Db\Sql\Expression('SUM(weight * qty)')))
+            ->where(array("cart_id" => $id));
+
+        $subTotal = $this->tableGateway->selectWith($select)->toArray();
+
+        return $subTotal[0]['weight'];
+    }
+    
 
 }

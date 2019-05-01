@@ -48,7 +48,7 @@ class CartController extends AbstractRestfulController
 
     public function getList()
     {
-        $cartTotal = $this->CartItemsTable->countCartTotalPriceByCartId(101);
+        $cartTotal = $this->CartItemsTable->computeCartTotalPriceByCartId(101);
         var_dump($cartTotal);
         exit;
 

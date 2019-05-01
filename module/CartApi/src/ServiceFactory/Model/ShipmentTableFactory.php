@@ -1,9 +1,9 @@
 <?php
 
-namespace JobApi\ServiceFactory\Model;
+namespace CartApi\ServiceFactory\Model;
 
-use JobApi\Model\Shipment;
-use JobApi\Model\ShipmentTable;
+use CartApi\Model\Shipment;
+use CartApi\Model\ShipmentTable;
 use Psr\Container\ContainerInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;

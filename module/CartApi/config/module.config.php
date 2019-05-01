@@ -13,6 +13,14 @@ use CartApi\Model\CartItemsTable;
 use CartApi\Service\CartService;
 use CartApi\ServiceFactory\Service\CartServiceFactory;
 use CartApi\Filter\CartFilter;
+use CartApi\Controller\ShipmentController;
+use CartApi\ServiceFactory\Controller\ShipmentControllerFactory;
+use CartApi\Model\Shipment;
+use CartApi\Model\ShipmentTable;
+use CartApi\ServiceFactory\Model\ShipmentTableFactory;
+use CartApi\Service\ShipmentService;
+use CartApi\ServiceFactory\Service\ShipmentServiceFactory;
+use CartApi\Filter\ShipmentFilter;
 
 return array(
     'router' => [
@@ -30,16 +38,29 @@ return array(
                     ],
                 ],
             ],
+            'shipment' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/shipment[/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => [
+                        'controller' => ShipmentController::class,
+                    ],
+                ],
+            ],
         ],
     ],
 
     'controllers' => array(
         'factories' => array(
             CartController::class => CartControllerFactory::class,
+            ShipmentController::class => ShipmentControllerFactory::class,
         ),
 
         'invokables' => array(
-
         ),
     ),
     'service_manager' => array(
@@ -47,11 +68,15 @@ return array(
             CartTable::class => CartTableFactory::class,
             CartItemsTable::class => CartItemsTableFactory::class,
             CartService::class => CartServiceFactory::class,
+            ShipmentService::class => ShipmentServiceFactory::class,
+            ShipmentTable::class => ShipmentTableFactory::class,
         ),
         'invokables' => array(
             CartFilter::class => CartFilter::class,
             Cart::class => Cart::class,
             CartItems::class => CartItems::class,
+            ShipmentFilter::class => ShipmentFilter::class,
+            Shipment::class => Shipment::class,
         ),
     ),
     'view_manager' => array(

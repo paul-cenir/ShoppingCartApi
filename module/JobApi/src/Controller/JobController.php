@@ -5,7 +5,6 @@ namespace JobApi\Controller;
 use JobApi\Model\JobItemsTable;
 use JobApi\Model\JobTable;
 use JobApi\Service\JobService;
-use JobApi\Service\ShipmentService;
 use Zend\Debug\Debug;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -17,24 +16,20 @@ class JobController extends AbstractRestfulController
     private $JobTable;
     private $JobItemsTable;
     private $JobService;
-    private $ShipmentService;
     public function __construct(
         JobTable $JobTable,
         JobItemsTable $JobItemsTable,
-        JobService $JobService,
-        ShipmentService $ShipmentService
+        JobService $JobService
     ) {
 
         $this->JobTable = $JobTable;
         $this->JobItemsTable = $JobItemsTable;
         $this->JobService = $JobService;
-        $this->ShipmentService = $ShipmentService;
     }
 
     public function create($data)
-    { 
+    {
         $params = $this->params()->fromPost();
-       
         $jobDetails = $this->JobService->addJob($params);
         if ($jobDetails['isValid']) {
             return new JsonModel([$jobDetails['data']]);
@@ -51,7 +46,7 @@ class JobController extends AbstractRestfulController
 
     public function getList()
     {
-        return new JsonModel([$this->ShipmentService->computeShippingTotal()]);
+        return new JsonModel([23]);
     }
 
     public function update($id, $data)

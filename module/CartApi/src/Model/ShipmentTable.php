@@ -1,6 +1,6 @@
 <?php
 
-namespace JobApi\Model;
+namespace CartApi\Model;
 
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
