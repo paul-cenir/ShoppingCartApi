@@ -52,5 +52,4 @@ class JobService
             return array("isValid" => true, "data" => $jobId);
         }
     }
-
 }
