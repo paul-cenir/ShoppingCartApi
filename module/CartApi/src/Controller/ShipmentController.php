@@ -2,9 +2,8 @@
 
 namespace CartApi\Controller;
 
-use JobApi\Service\JobService;
 use CartApi\Service\ShipmentService;
-use Zend\Debug\Debug;
+use JobApi\Service\JobService;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -25,6 +24,12 @@ class ShipmentController extends AbstractRestfulController
     public function create($data)
     {
         //need to move in http verb put
-        return new JsonModel([  $this->ShipmentService->updateShippingInCart($data)]);
+        return new JsonModel([$this->ShipmentService->updateShippingInCart($data)]);
     }
+
+    public function update($id, $data)
+    {
+        return new JsonModel([]);
+    }
+
 }
