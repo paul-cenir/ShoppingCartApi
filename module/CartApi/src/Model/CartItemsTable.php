@@ -35,7 +35,7 @@ class CartItemsTable
     {
         $sql = $this->tableGateway->getSql();
         $select = $sql->select()
-            ->columns(array('price' => new \Zend\Db\Sql\Expression('SUM(price * qty)')))
+            ->columns(array('price' => new \Zend\Db\Sql\Expression('SUM(price)')))
             ->where(array("cart_id" => $id));
 
         $subTotal = $this->tableGateway->selectWith($select)->toArray();
@@ -47,7 +47,7 @@ class CartItemsTable
     {
         $sql = $this->tableGateway->getSql();
         $select = $sql->select()
-            ->columns(array('weight' => new \Zend\Db\Sql\Expression('SUM(weight * qty)')))
+            ->columns(array('weight' => new \Zend\Db\Sql\Expression('SUM(weight)')))
             ->where(array("cart_id" => $id));
 
         $subTotal = $this->tableGateway->selectWith($select)->toArray();

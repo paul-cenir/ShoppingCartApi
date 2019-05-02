@@ -49,7 +49,7 @@ class CartFilter extends InputFilter
                 array(
                     'name' => 'Regex',
                     'options' => array(
-                        'pattern' => '/^[1-9_\.\,]*$/',
+                        'pattern' => '/^[0-9]+$/',
                         'messages' => array(
                             \Zend\Validator\Regex::INVALID => 'Your error message.',
                         ),

@@ -54,32 +54,28 @@ class CartService
                 if ($productDetails && $filteredParamData) {
                     $cartItemData = array_merge($productDetails, $filteredParamData);
                 }
-                $sub_total = $productDetails['price'] * $filteredParamData['qty'];
+                $price = $productDetails['price'] * $filteredParamData['qty'];
+                $weight = $productDetails['weight'] * $filteredParamData['qty'];
+                $cartItemData['price'] = $price;
+                $cartItemData['weight'] = $weight;
                 if (!$existingCart) {
-                    //insert in cart table and cart items
-                    //customer_id  save in  carts return cart_id
-                    //save  cart_id,product_id and quantity in cart_items
-                    $cartData['sub_total'] = $sub_total;
-                    $cartData['total_amount'] = $sub_total;
+                    $cartData['sub_total'] = $price;
                     $this->Cart->exchangeArray($cartData);
                     $cartId = $this->CartTable->addCart($this->Cart);
-                    $cartItemData['cart_id'] = $cartId;
+                    $cartItemData['cart_id'] = $cartId; 
                     $this->CartItems->exchangeArray($cartItemData);
                     $this->CartItemsTable->addCartItem($this->CartItems);
                     return array("isValid" => true, "data" => $cartId);
                 } else {
-                    //get existing cart_id
-                    //save  cart_id,product_id and quantity in cart_items
-                    //else insert only in cart items
-                    //update the sub_total in cart
                     $newCartData = [];
-                    $existingCart = get_object_vars($existingCart);
                     $cartItemData['cart_id'] = $existingCart['cart_id'];
                     $this->CartItems->exchangeArray($cartItemData);
                     $addedCartItem = $this->CartItemsTable->addCartItem($this->CartItems);
                     $subTotal = $this->CartItemsTable->computeCartTotalPriceByCartId($existingCart['cart_id']);
+                    $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($existingCart['cart_id']);
                     $newCartData['sub_total'] = $subTotal;
                     $newCartData['cart_id'] = $existingCart['cart_id'];
+                    $newCartData['total_weight'] = $totalWeight; 
                     $this->CartTable->updateCartById($newCartData);
                     return array("isValid" => true, "data" => $addedCartItem);
                 }

@@ -41,7 +41,8 @@ class CartTable
 
     public function getCartByCustomerId($id)
     {
-        return $this->tableGateway->select(['customer_id' => $id])->current();
+        $cartDto =  $this->tableGateway->select(['customer_id' => $id])->current();
+        return $cartDto ? get_object_vars($cartDto) : $cartDto;
     }
 
     public function addCart(Cart $cart)
