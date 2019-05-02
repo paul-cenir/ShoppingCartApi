@@ -12,7 +12,7 @@ namespace ProductApi;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-
+use CustomerApi\Listener\AuthListener;
 class Module
 {
     public function onBootstrap(MvcEvent $e)
@@ -23,7 +23,16 @@ class Module
 
         $sm = $e->getApplication()->getServiceManager();
 
-        // attach auth listener on every controller dispatch event
+          // attach auth listener on every controller dispatch event
+          $eventManager->getSharedManager()->attach(
+            'SecuredController',
+            'dispatch',
+            function ($e) use ($sm) {
+                $authListener = new AuthListener();
+                return $authListener($e);
+            },
+            2
+        );
       
     }
 

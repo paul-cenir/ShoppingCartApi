@@ -8,7 +8,7 @@ use Zend\View\Model\JsonModel;
 
 class ProductController extends AbstractRestfulController
 {
-    //protected $eventIdentifier = 'SecuredController';
+    // protected $eventIdentifier = 'SecuredController';
 
     private $ProductsTable;
 
@@ -19,7 +19,7 @@ class ProductController extends AbstractRestfulController
 
     public function get($id)
     {
-        return new JsonModel([$this->ProductsTable->getProductById($id)]);
+        return new JsonModel($this->ProductsTable->getProductById($id));
     }
 
     public function getList()
