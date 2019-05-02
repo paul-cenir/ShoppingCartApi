@@ -5,7 +5,6 @@ namespace CartApi\Controller;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
 use CartApi\Service\CartService;
-use Zend\Debug\Debug;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -29,21 +28,9 @@ class CartController extends AbstractRestfulController
 
     public function create($data)
     {
-        //get input in productId and quantity only
-        //validate and sanitize
-        //check if customer exist in Cart
-        //insert in cart table and cart items
-        //else insert only in cart items
-        //return success
-        $params = $this->params()->fromPost();
-        $params['customer_id'] = 4;
-        $addedCart = $this->CartService->addToCart($params);
+        $data['customer_id'] = 4;
+        $addedCart = $this->CartService->addToCart($data);
         return new JsonModel($addedCart);
-    }
-
-    public function get($id)
-    {
-        return new JsonModel([]);
     }
 
     public function getList()
@@ -53,19 +40,6 @@ class CartController extends AbstractRestfulController
         exit;
 
         return new JsonModel([]);
-    }
-
-    public function update($id, $data)
-    {
-
-        \Zend\Debug\Debug::dump('update');
-        exit;
-    }
-
-    public function delete($id)
-    {
-        \Zend\Debug\Debug::dump('delete');
-        exit;
     }
 
 }

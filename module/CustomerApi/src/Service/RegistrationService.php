@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerApi\Service\Registration;
+namespace CustomerApi\Service;
 
-use CustomerApi\Filter\Registration\RegistrationFilter;
+use CustomerApi\Filter\RegistrationFilter;
 use CustomerApi\Model\CustomersTable;
 use Zend\Mvc\Controller\AbstractRestfulController;
 

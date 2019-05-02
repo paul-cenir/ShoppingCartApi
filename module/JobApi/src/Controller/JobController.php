@@ -5,7 +5,6 @@ namespace JobApi\Controller;
 use JobApi\Model\JobItemsTable;
 use JobApi\Model\JobTable;
 use JobApi\Service\JobService;
-use Zend\Debug\Debug;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -37,29 +36,6 @@ class JobController extends AbstractRestfulController
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $jobDetails['data']]);
         }
-    }
-
-    public function get($id)
-    {
-        return new JsonModel([]);
-    }
-
-    public function getList()
-    {
-        return new JsonModel([23]);
-    }
-
-    public function update($id, $data)
-    {
-
-        \Zend\Debug\Debug::dump('update');
-        exit;
-    }
-
-    public function delete($id)
-    {
-        \Zend\Debug\Debug::dump('delete');
-        exit;
     }
 
 }

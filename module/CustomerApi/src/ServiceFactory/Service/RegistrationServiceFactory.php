@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomerApi\ServiceFactory\Service\Registration;
+namespace CustomerApi\ServiceFactory\Service;
 
-use CustomerApi\Filter\Registration\RegistrationFilter;
+use CustomerApi\Filter\RegistrationFilter;
 use CustomerApi\Model\CustomersTable;
-use CustomerApi\Service\Registration\RegistrationService;
+use CustomerApi\Service\RegistrationService;
 use Psr\Container\ContainerInterface;
 
 class RegistrationServiceFactory

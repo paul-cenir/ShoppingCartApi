@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerApi\Service\Login;
+namespace CustomerApi\Service;
 
-use CustomerApi\Filter\Login\LoginFilter;
+use CustomerApi\Filter\LoginFilter;
 use CustomerApi\Model\CustomersTable;
 
 class LoginService

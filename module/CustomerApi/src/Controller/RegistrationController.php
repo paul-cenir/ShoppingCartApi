@@ -1,11 +1,11 @@
 <?php
 
-namespace CustomerApi\Controller\Registration;
+namespace CustomerApi\Controller;
 
 use CustomerApi\Model\Customers;
 use CustomerApi\Model\CustomersTable;
+use CustomerApi\Service\RegistrationService;
 use CustomerApi\Service\TokenService;
-use CustomerApi\Service\Registration\RegistrationService;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -38,8 +38,7 @@ class RegistrationController extends AbstractRestfulController
         //save data
         //create access token
         //return success
-        $params = $this->params()->fromPost();
-        $customerData = $this->RegistrationService->getCustomerDataIfValid($params);
+        $customerData = $this->RegistrationService->getCustomerDataIfValid($data);
         if (!$customerData['isValid']) {
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $customerData['data']]);
@@ -57,28 +56,6 @@ class RegistrationController extends AbstractRestfulController
                 "data" => $Token,
             ]);
         }
-    }
-
-    public function get($id)
-    {
-
-        return new JsonModel([]);
-    }
-
-    public function getList()
-    {
-
-        return new JsonModel([]);
-    }
-
-    public function update($id, $data)
-    {
-        return new JsonModel([]);
-    }
-
-    public function delete($id)
-    {
-        return new JsonModel([]);
     }
 
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace CustomerApi\Controller\Login;
+namespace CustomerApi\Controller;
 
+use CustomerApi\Service\LoginService;
 use CustomerApi\Service\TokenService;
-use CustomerApi\Service\Login\LoginService;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
@@ -27,9 +27,7 @@ class LoginController extends AbstractRestfulController
         //validate if account is valid
         //create access token
         //return success
-
-        $params = $this->params()->fromPost();
-        $accountData = $this->LoginService->checkAccountIfValid($params);
+        $accountData = $this->LoginService->checkAccountIfValid($data);
         if (!$accountData['isValid']) {
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $accountData['data']]);
@@ -45,28 +43,6 @@ class LoginController extends AbstractRestfulController
             ]);
         }
 
-    }
-
-    public function get($id)
-    {
-        return new JsonModel([]);
-    }
-
-    public function getList()
-    {
-
-        return new JsonModel([]);
-    }
-
-    public function update($id, $data)
-    {
-
-        return new JsonModel([]);
-    }
-
-    public function delete($id)
-    {
-        return new JsonModel([]);
     }
 
 }

@@ -25,28 +25,6 @@ class ShipmentController extends AbstractRestfulController
     public function create($data)
     {
         //need to move in http verb put
-        $params = $this->params()->fromPost();
-      
-        return new JsonModel([  $this->ShipmentService->updateShippingInCart($params)]);
+        return new JsonModel([  $this->ShipmentService->updateShippingInCart($data)]);
     }
-    public function get($id)
-    {
-        return new JsonModel([45]);
-    }
-
-    public function getList()
-    {
-        return new JsonModel([]);
-    }
-
-    public function update($id, $data)
-    {
-        return new JsonModel([]);
-    }
-
-    public function delete($id)
-    {
-        return new JsonModel([]);
-    }
-
 }

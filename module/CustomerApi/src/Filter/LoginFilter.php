@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerApi\Filter\Login;
+namespace CustomerApi\Filter;
 
 use Zend\InputFilter\InputFilter;
 use Zend\Validator\NotEmpty;

@@ -27,17 +27,4 @@ class ProductController extends AbstractRestfulController
         return new JsonModel($this->ProductsTable->getProductList());
     }
 
-    public function update($id, $data)
-    {
-
-        \Zend\Debug\Debug::dump('update');
-        exit;
-    }
-
-    public function delete($id)
-    {
-        \Zend\Debug\Debug::dump('delete');
-        exit;
-    }
-
 }

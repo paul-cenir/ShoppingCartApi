@@ -2,21 +2,20 @@
 namespace CustomerApi;
 
 use CustomerApi\Controller\LoginController;
-use CustomerApi\Controller\Registration\RegistrationController;
-use CustomerApi\Controller\Rest\TokenController;
-use CustomerApi\Filter\Login\LoginFilter;
-use CustomerApi\Filter\Registration\RegistrationFilter;
+use CustomerApi\Controller\RegistrationController;
+use CustomerApi\Filter\LoginFilter;
+use CustomerApi\Filter\RegistrationFilter;
 use CustomerApi\Model\Customers;
 use CustomerApi\Model\CustomersTable;
-use CustomerApi\ServiceFactory\Controller\Login\LoginControllerFactory;
-use CustomerApi\ServiceFactory\Controller\Registration\RegistrationControllerFactory;
+use CustomerApi\ServiceFactory\Controller\LoginControllerFactory;
+use CustomerApi\ServiceFactory\Controller\RegistrationControllerFactory;
 use CustomerApi\ServiceFactory\Model\CustomersTableFactory;
 use CustomerApi\ServiceFactory\Service\TokenServiceFactory;
-use CustomerApi\ServiceFactory\Service\Login\LoginServiceFactory;
-use CustomerApi\ServiceFactory\Service\Registration\RegistrationServiceFactory;
+use CustomerApi\ServiceFactory\Service\LoginServiceFactory;
+use CustomerApi\ServiceFactory\Service\RegistrationServiceFactory;
 use CustomerApi\Service\TokenService;
-use CustomerApi\Service\Login\LoginService;
-use CustomerApi\Service\Registration\RegistrationService;
+use CustomerApi\Service\LoginService;
+use CustomerApi\Service\RegistrationService;
 use Zend\Mvc\Router\Http\Segment;
 
 return array(
@@ -59,8 +58,6 @@ return array(
         ),
 
         'invokables' => array(
-            TokenController::class => TokenController::class,
-
         ),
     ),
     'service_manager' => array(

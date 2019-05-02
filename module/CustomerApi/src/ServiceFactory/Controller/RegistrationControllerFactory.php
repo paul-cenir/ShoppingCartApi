@@ -1,12 +1,12 @@
 <?php
 
-namespace CustomerApi\ServiceFactory\Controller\Registration;
+namespace CustomerApi\ServiceFactory\Controller;
 
-use CustomerApi\Controller\Registration\RegistrationController;
+use CustomerApi\Controller\RegistrationController;
 use CustomerApi\Model\Customers;
 use CustomerApi\Model\CustomersTable;
 use CustomerApi\Service\TokenService;
-use CustomerApi\Service\Registration\RegistrationService;
+use CustomerApi\Service\RegistrationService;
 use Psr\Container\ContainerInterface;
 
 class RegistrationControllerFactory

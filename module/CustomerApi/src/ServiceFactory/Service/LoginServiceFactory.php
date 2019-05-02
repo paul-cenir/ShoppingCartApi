@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomerApi\ServiceFactory\Service\Login;
+namespace CustomerApi\ServiceFactory\Service;
 
-use CustomerApi\Filter\Login\LoginFilter;
+use CustomerApi\Filter\LoginFilter;
 use CustomerApi\Model\CustomersTable;
-use CustomerApi\Service\Login\LoginService;
+use CustomerApi\Service\LoginService;
 use Psr\Container\ContainerInterface;
 
 class LoginServiceFactory

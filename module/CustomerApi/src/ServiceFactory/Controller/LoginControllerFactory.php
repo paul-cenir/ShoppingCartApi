@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomerApi\ServiceFactory\Controller\Login;
+namespace CustomerApi\ServiceFactory\Controller;
 
-use CustomerApi\Controller\Login\LoginController;
+use CustomerApi\Controller\LoginController;
 use CustomerApi\Service\TokenService;
-use CustomerApi\Service\Login\LoginService;
+use CustomerApi\Service\LoginService;
 use Psr\Container\ContainerInterface;
 
 class LoginControllerFactory
