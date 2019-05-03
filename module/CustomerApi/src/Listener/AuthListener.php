@@ -18,7 +18,7 @@ EOD;
 
     public function __invoke(MvcEvent $mvcEvent)
     {
-        return true;
+        // return true;
         $mvcEvent->getRequest();
         // check if request is authenticated
         $isValid = false;

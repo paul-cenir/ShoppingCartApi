@@ -28,7 +28,8 @@ class CustomersTable
 
     public function getCustomerByEmail($email)
     {
-        return$this->tableGateway->select(['email' => $email])->current();
+        $data = $this->tableGateway->select(['email' => $email])->current();
+        return $data ? get_object_vars($data) : $data;
     }
 
     public function registerCustomer(Customers $customer)

@@ -11,8 +11,6 @@ use Zend\View\Model\JsonModel;
 
 class RegistrationController extends AbstractRestfulController
 {
-    protected $eventIdentifier = 'SecuredController';
-
     private $CustomersTable;
     private $Customers;
     private $RegistrationService;

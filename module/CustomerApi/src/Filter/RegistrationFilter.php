@@ -29,14 +29,21 @@ class RegistrationFilter extends InputFilter
                     ),
                 ),
                 array(
-                    'name' => 'EmailAddress',
+                    // 'name' => 'EmailAddress',
+                    // 'options' => array(
+                    //     'domain' => 'true',
+                    //     'hostname' => 'true',
+                    //     'mx' => 'true',
+                    //     'deep' => 'true',
+                    //     'message' => 'Invalid email address',
+                    // )
+                    'name' => 'Regex',
                     'options' => array(
-                        'domain' => 'true',
-                        'hostname' => 'true',
-                        'mx' => 'true',
-                        'deep' => 'true',
-                        'message' => 'Invalid email address',
-                    )
+                        'pattern' => '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
+                        'messages' => array(
+                            \Zend\Validator\Regex::INVALID => 'Your error message.',
+                        ),
+                    ),
                 ),
             ),
         
