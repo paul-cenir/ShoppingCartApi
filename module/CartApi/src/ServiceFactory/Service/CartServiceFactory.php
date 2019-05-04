@@ -1,18 +1,17 @@
 <?php
 
-
 namespace CartApi\ServiceFactory\Service;
 
-
-use CartApi\Service\CartService;
-use Psr\Container\ContainerInterface;
-use CartApi\Model\CartTable;
 use CartApi\Filter\CartFilter;
-use ProductApi\Model\ProductsTable;
-use CustomerApi\Model\CustomersTable;
 use CartApi\Model\Cart;
 use CartApi\Model\CartItems;
 use CartApi\Model\CartItemsTable;
+use CartApi\Model\CartTable;
+use CartApi\Service\CartService;
+use CustomerApi\Model\CustomersTable;
+use CustomerApi\Service\TokenService;
+use ProductApi\Model\ProductsTable;
+use Psr\Container\ContainerInterface;
 
 class CartServiceFactory
 {
@@ -25,7 +24,17 @@ class CartServiceFactory
         $Cart = $container->get(Cart::class);
         $CartItems = $container->get(CartItems::class);
         $CartItemsTable = $container->get(CartItemsTable::class);
+        $TokenService = $container->get(TokenService::class);
 
-        return new CartService($CartTable, $CartFilter,$ProductsTable, $CustomersTable, $Cart, $CartItems, $CartItemsTable);
+        return new CartService(
+            $CartTable,
+            $CartFilter,
+            $ProductsTable,
+            $CustomersTable,
+            $Cart,
+            $CartItems,
+            $CartItemsTable,
+            $TokenService
+        );
     }
 }

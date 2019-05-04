@@ -26,7 +26,7 @@ class CartTable
             "ci.cart_id = carts.cart_id",
             array("*")
         )->where(array(
-            "carts.customer_id" => 1,
+            "carts.customer_id" => $id,
         ));
 
         $resultSet = $this->tableGateway->selectWith($select)->getDataSource();

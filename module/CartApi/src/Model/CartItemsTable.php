@@ -20,9 +20,28 @@ class CartItemsTable
         return $this->tableGateway->select()->toArray();
     }
 
-    public function getCartItemByItemId($id)
+    public function getCartItemById($id)
     {
-        return $this->tableGateway->select(['cart_item_id' => $id])->current();
+        $select = $this->tableGateway->getSql()->select();
+        $select->columns(array("*"));
+        $select->join(
+            array("p" => "products"),
+            "p.product_id = cart_items.product_id",
+            array("*")
+        )
+        ->where(array(
+            "cart_items.cart_id" => $id,
+        ));
+
+        $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
+        $data = array();
+        foreach ($resultSet as $row) {
+            array_push($data,$row);
+        }
+        return $data;
+
+
+        // return $this->tableGateway->select(['cart_id' => $id])->current()->toArray();
     }
 
     public function addCartItem(CartItems $cart)

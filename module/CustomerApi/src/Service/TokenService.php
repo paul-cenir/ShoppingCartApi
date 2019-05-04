@@ -71,6 +71,34 @@ EOD;
 
     }
 
+    public function decodeAccessToken($authHeader) {
+        if (!empty($authHeader)) {
+            $arrAuthHeader = explode(" ", $authHeader->getFieldValue());
+
+            try {
+                $decoded = JWT::decode($arrAuthHeader[1], $this->publicKey, array('RS256'));
+            } catch (\Exception $e) {
+                $decoded = false;
+            }
+            
+            return get_object_vars($decoded);
+        }
+    }
+
+    public function getCustomerId($authHeader) {
+        if (!empty($authHeader)) {
+            $arrAuthHeader = explode(" ", $authHeader->getFieldValue());
+            try {
+                $decoded = JWT::decode($arrAuthHeader[1], $this->publicKey, array('RS256'));
+            } catch (\Exception $e) {
+                $decoded = false;
+            }
+            $customerData = get_object_vars($decoded);
+            $customeData = get_object_vars($customerData['data']);
+            return (int)$customeData['customer_id'];
+        }
+    }
+
     public function generateRefreshToken()
     {
         $refreshToken = md5(time());

@@ -7,10 +7,12 @@ use CartApi\Model\CartTable;
 use CartApi\Service\CartService;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
+use Zend\Mvc\MvcEvent;
+
 
 class CartController extends AbstractRestfulController
 {
-    //protected $eventIdentifier = 'SecuredController';
+    // protected $eventIdentifier = 'SecuredController';
 
     private $CartTable;
     private $CartItemsTable;
@@ -28,18 +30,18 @@ class CartController extends AbstractRestfulController
 
     public function create($data)
     {
-        $data['customer_id'] = 4;
-        $addedCart = $this->CartService->addToCart($data);
+        $accessToken = $this->getRequest()->getHeader('Authorization');
+        $addedCart = $this->CartService->addToCart($data,$accessToken);
         return new JsonModel($addedCart);
     }
 
-    public function getList()
+    public function get($id)
     {
-        $cartTotal = $this->CartItemsTable->computeCartTotalPriceByCartId(101);
-        var_dump($cartTotal);
-        exit;
-
-        return new JsonModel([]);
+        //validation and sanitization
+        $student_one = array(
+            "cartItemData" => $this->CartItemsTable->getCartItemById($id),
+            "cartData" => $this->CartTable->getCartByCartId($id),
+        );
+        return new JsonModel($student_one);
     }
-
 }

@@ -9,6 +9,7 @@ use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
 use CustomerApi\Model\CustomersTable;
 use ProductApi\Model\ProductsTable;
+use CustomerApi\Service\TokenService;
 
 class CartService
 {
@@ -19,6 +20,7 @@ class CartService
     private $Cart;
     private $CartItems;
     private $CartItemsTable;
+    private $TokenService;
     public function __construct(
         CartTable $CartTable,
         CartFilter $CartFilter,
@@ -26,7 +28,8 @@ class CartService
         CustomersTable $CustomersTable,
         Cart $Cart,
         CartItems $CartItems,
-        CartItemsTable $CartItemsTable
+        CartItemsTable $CartItemsTable,
+        TokenService $TokenService
     ) {
         $this->CartTable = $CartTable;
         $this->CartFilter = $CartFilter;
@@ -35,10 +38,18 @@ class CartService
         $this->Cart = $Cart;
         $this->CartItems = $CartItems;
         $this->CartItemsTable = $CartItemsTable;
+        $this->TokenService = $TokenService;
     }
 
-    public function addToCart($params)
+    public function addToCart($params,$accessToken)
     {
+        if(!$accessToken) {
+            $params['customer_id'] = 0;
+        } else {
+            $customer_id = $this->TokenService->getCustomerId($accessToken);
+            $params['customer_id'] = $customer_id;
+        }
+        
         $this->CartFilter->setData($params);
         if (!$this->CartFilter->isValid()) {
             return array("isValid" => false, "data" => $this->CartFilter->getMessages());
