@@ -8,8 +8,8 @@ use CartApi\Model\CartItems;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
 use CustomerApi\Model\CustomersTable;
-use ProductApi\Model\ProductsTable;
 use CustomerApi\Service\TokenService;
+use ProductApi\Model\ProductsTable;
 
 class CartService
 {
@@ -41,15 +41,19 @@ class CartService
         $this->TokenService = $TokenService;
     }
 
-    public function addToCart($params,$accessToken)
+    public function addToCart($params, $accessToken)
     {
-        if(!$accessToken) {
-            $params['customer_id'] = 0;
-        } else {
+        $accessToken = (array) $accessToken;
+        var_dump($accessToken['value']);
+        exit;
+        if ($accessToken) {
             $customer_id = $this->TokenService->getCustomerId($accessToken);
             $params['customer_id'] = $customer_id;
+        } else {
+            $params['customer_id'] = 0;
         }
-        
+        var_dump($params['customer_id']);
+        exit;
         $this->CartFilter->setData($params);
         if (!$this->CartFilter->isValid()) {
             return array("isValid" => false, "data" => $this->CartFilter->getMessages());
@@ -73,10 +77,14 @@ class CartService
                     $cartData['sub_total'] = $price;
                     $this->Cart->exchangeArray($cartData);
                     $cartId = $this->CartTable->addCart($this->Cart);
-                    $cartItemData['cart_id'] = $cartId; 
+                    $cartItemData['cart_id'] = $cartId;
                     $this->CartItems->exchangeArray($cartItemData);
                     $this->CartItemsTable->addCartItem($this->CartItems);
-                    return array("isValid" => true, "data" => $cartId);
+                    return array("isValid" => true,
+                        "data" => array(
+                            "cartId" => $cartId,
+                        ),
+                    );
                 } else {
                     $newCartData = [];
                     $cartItemData['cart_id'] = $existingCart['cart_id'];
@@ -86,7 +94,7 @@ class CartService
                     $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($existingCart['cart_id']);
                     $newCartData['sub_total'] = $subTotal;
                     $newCartData['cart_id'] = $existingCart['cart_id'];
-                    $newCartData['total_weight'] = $totalWeight; 
+                    $newCartData['total_weight'] = $totalWeight;
                     $this->CartTable->updateCartById($newCartData);
                     return array("isValid" => true, "data" => $addedCartItem);
                 }

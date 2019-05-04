@@ -31,8 +31,14 @@ class CartController extends AbstractRestfulController
     public function create($data)
     {
         $accessToken = $this->getRequest()->getHeader('Authorization');
-        $addedCart = $this->CartService->addToCart($data,$accessToken);
-        return new JsonModel($addedCart);
+        $cart = $this->CartService->addToCart($data,$accessToken);
+        if(!$cart['isValid']) {
+            $this->getResponse()->setStatusCode(400);
+            return new JsonModel(["validation_error_messages" => $cart['data']]);
+        } else {
+            return new JsonModel([$cart['data']]);
+        }
+        return new JsonModel($cart);
     }
 
     public function get($id)
