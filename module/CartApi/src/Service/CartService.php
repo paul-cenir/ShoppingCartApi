@@ -7,6 +7,7 @@ use CartApi\Model\Cart;
 use CartApi\Model\CartItems;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
+use CustomerApi\Model\Customers;
 use CustomerApi\Model\CustomersTable;
 use CustomerApi\Service\TokenService;
 use ProductApi\Model\ProductsTable;
@@ -21,6 +22,7 @@ class CartService
     private $CartItems;
     private $CartItemsTable;
     private $TokenService;
+    private $Customers;
     public function __construct(
         CartTable $CartTable,
         CartFilter $CartFilter,
@@ -29,7 +31,8 @@ class CartService
         Cart $Cart,
         CartItems $CartItems,
         CartItemsTable $CartItemsTable,
-        TokenService $TokenService
+        TokenService $TokenService,
+        Customers $Customers
     ) {
         $this->CartTable = $CartTable;
         $this->CartFilter = $CartFilter;
@@ -39,34 +42,29 @@ class CartService
         $this->CartItems = $CartItems;
         $this->CartItemsTable = $CartItemsTable;
         $this->TokenService = $TokenService;
+        $this->Customers = $Customers;
     }
 
     public function addToCart($params, $accessToken)
     {
-        $accessToken = (array) $accessToken;
-        var_dump($accessToken['value']);
-        exit;
-        if ($accessToken) {
-            $customer_id = $this->TokenService->getCustomerId($accessToken);
-            $params['customer_id'] = $customer_id;
+        $validation = $this->CartFilter->addCartFilter()->setData($params);
+        if (!$validation->isValid()) {
+            return array("isValid" => false, "data" => $validation->getMessages());
         } else {
-            $params['customer_id'] = 0;
-        }
-        var_dump($params['customer_id']);
-        exit;
-        $this->CartFilter->setData($params);
-        if (!$this->CartFilter->isValid()) {
-            return array("isValid" => false, "data" => $this->CartFilter->getMessages());
-        } else {
-            $filteredParamData = $this->CartFilter->getValues();
-            $existingCart = $this->CartTable->getCartByCustomerId($filteredParamData['customer_id']);
+            $filteredParamData = $validation->getValues();
+            $filteredParamData['customer_id'] = $this->TokenService->getCutomerIdInAccessToken($accessToken);
+            $existingCart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
             $productDetails = $this->ProductTable->getProductById($filteredParamData['product_id']);
             $customerDtetails = $this->CustomersTable->getCustomerById($filteredParamData['customer_id']);
             if ($productDetails['stock_qty'] >= $filteredParamData['qty']) {
-                if ($customerDtetails && $filteredParamData) {
+                if ($customerDtetails) {
                     $cartData = array_merge($customerDtetails, $filteredParamData);
+                } else {
+                    $cartData = $filteredParamData;
+                    $this->Customers->exchangeArray([]);
+                    $cartData = array_merge(get_object_vars($this->Customers), $filteredParamData);
                 }
-                if ($productDetails && $filteredParamData) {
+                if ($productDetails) {
                     $cartItemData = array_merge($productDetails, $filteredParamData);
                 }
                 $price = $productDetails['price'] * $filteredParamData['qty'];
@@ -80,27 +78,44 @@ class CartService
                     $cartItemData['cart_id'] = $cartId;
                     $this->CartItems->exchangeArray($cartItemData);
                     $this->CartItemsTable->addCartItem($this->CartItems);
-                    return array("isValid" => true,
-                        "data" => array(
-                            "cartId" => $cartId,
-                        ),
-                    );
+                    return array("isValid" => true, "data" => array("cartId" => $cartId));
                 } else {
                     $newCartData = [];
-                    $cartItemData['cart_id'] = $existingCart['cart_id'];
                     $this->CartItems->exchangeArray($cartItemData);
                     $addedCartItem = $this->CartItemsTable->addCartItem($this->CartItems);
-                    $subTotal = $this->CartItemsTable->computeCartTotalPriceByCartId($existingCart['cart_id']);
-                    $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($existingCart['cart_id']);
+                    $subTotal = $this->CartItemsTable->computeCartTotalPriceByCartId($filteredParamData['cart_id']);
+                    $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id']);
                     $newCartData['sub_total'] = $subTotal;
-                    $newCartData['cart_id'] = $existingCart['cart_id'];
+                    $newCartData['cart_id'] = $filteredParamData['cart_id'];
                     $newCartData['total_weight'] = $totalWeight;
+                    $newCartData['customer_id'] = $filteredParamData['customer_id'];
                     $this->CartTable->updateCartById($newCartData);
-                    return array("isValid" => true, "data" => $addedCartItem);
+                    return array("isValid" => true, "data" => array("cartItemId" => $addedCartItem));
                 }
             } else {
                 return array("isValid" => false, "data" => "insufficient stock");
             }
+        }
+    }
+
+    public function getCart($params)
+    {
+        $cartData = array("cart_id" => $params);
+        $validation = $this->CartFilter->getCartFilter()->setData($cartData);
+      
+        if (!$validation->isValid()) {
+            return array("isValid" => false, "data" => $validation->getMessages());
+        } else {
+            $existingCart = $this->CartTable->getCartByCartId($params);
+            if (!$existingCart) {
+                return array("isValid" => false, "data" => "Invalid cart id");
+            }
+          
+            return array("isValid" => true, "data" => array(
+                "cartItemData" => $this->CartItemsTable->getCartItemById($params),
+                "cartData" => $this->CartTable->getCartByCartId($params),
+            ));
+
         }
     }
 }

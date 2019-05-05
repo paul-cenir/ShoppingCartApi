@@ -17,8 +17,6 @@ class CartTable
 
     public function getCartListByCustomerId($id)
     {
-        // return $this->tableGateway->select()->toArray();
-
         $select = $this->tableGateway->getSql()->select();
         $select->columns(array("*"));
         $select->join(

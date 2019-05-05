@@ -23,7 +23,15 @@ class CartItemsTable
     public function getCartItemById($id)
     {
         $select = $this->tableGateway->getSql()->select();
-        $select->columns(array("*"));
+        $select->columns(array(
+            "cart_item_id" => "cart_item_id",
+            "cart_id" => "cart_id",
+            "product_id" => "product_id",
+            "weight" => "weight",
+            "qty" => "qty",
+            "unit_price" => "unit_price",
+            "sub_total" => "price",
+        ));
         $select->join(
             array("p" => "products"),
             "p.product_id = cart_items.product_id",
@@ -38,10 +46,11 @@ class CartItemsTable
         foreach ($resultSet as $row) {
             array_push($data,$row);
         }
+        // $test = $this->tableGateway->getSql()->getSqlStringForSqlObject($select);
+        // var_dump($test);
+        // exit;
         return $data;
-
-
-        // return $this->tableGateway->select(['cart_id' => $id])->current()->toArray();
+        
     }
 
     public function addCartItem(CartItems $cart)

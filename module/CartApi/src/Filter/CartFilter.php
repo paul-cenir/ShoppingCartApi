@@ -8,10 +8,15 @@ use Zend\Validator\Regex;
 
 class CartFilter extends InputFilter
 {
+    private $InputFilter;
     public function __construct()
     {
+        $this->InputFilter = new InputFilter();
+    }
 
-        $this->add(array(
+    public function addCartFilter()
+    {
+        $this->InputFilter->add(array(
             'name' => 'product_id',
             'required' => true,
             'filters' => array(
@@ -30,7 +35,7 @@ class CartFilter extends InputFilter
             ),
         ));
 
-        $this->add(array(
+        $this->InputFilter->add(array(
             'name' => 'qty',
             'required' => true,
             'filters' => array(
@@ -58,13 +63,29 @@ class CartFilter extends InputFilter
             ),
         ));
 
-        $this->add(array(
-            'name' => 'customer_id',
+        $this->InputFilter->add(array(
+            'name' => 'cart_id',
             'required' => false,
             'filters' => array(
                 array('name' => 'StripTags'),
                 array('name' => 'StringTrim'),
             ),
         ));
+
+        return $this->InputFilter;
+    }
+
+    public function getCartFilter()
+    {
+        $this->InputFilter->add(array(
+            'name' => 'cart_id',
+            'required' => true,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+        ));
+
+        return $this->InputFilter;
     }
 }

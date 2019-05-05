@@ -8,6 +8,7 @@ use CartApi\ServiceFactory\Model\CartTableFactory;
 use CartApi\ServiceFactory\Model\CartItemsTableFactory;
 use CartApi\Model\CartTable;
 use CartApi\Model\Cart;
+use CustomerApi\Model\Customers;
 use CartApi\Model\CartItems;
 use CartApi\Model\CartItemsTable;
 use CartApi\Service\CartService;
@@ -77,6 +78,7 @@ return array(
             CartItems::class => CartItems::class,
             ShipmentFilter::class => ShipmentFilter::class,
             Shipment::class => Shipment::class,
+            Customers::class => Customers::class,
         ),
     ),
     'view_manager' => array(

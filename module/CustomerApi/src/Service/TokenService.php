@@ -71,7 +71,8 @@ EOD;
 
     }
 
-    public function decodeAccessToken($authHeader) {
+    public function decodeAccessToken($authHeader)
+    {
         if (!empty($authHeader)) {
             $arrAuthHeader = explode(" ", $authHeader->getFieldValue());
 
@@ -80,12 +81,13 @@ EOD;
             } catch (\Exception $e) {
                 $decoded = false;
             }
-            
+
             return get_object_vars($decoded);
         }
     }
 
-    public function getCustomerId($authHeader) {
+    public function getCutomerIdInAccessToken($authHeader)
+    {
         if (!empty($authHeader)) {
             $arrAuthHeader = explode(" ", $authHeader->getFieldValue());
             try {
@@ -95,8 +97,11 @@ EOD;
             }
             $customerData = get_object_vars($decoded);
             $customeData = get_object_vars($customerData['data']);
-            return (int)$customeData['customer_id'];
+            $customer_id = (int) $customeData['customer_id'];
+        } else {
+            $customer_id = 0;
         }
+        return $customer_id;
     }
 
     public function generateRefreshToken()

@@ -12,6 +12,7 @@ use CustomerApi\Model\CustomersTable;
 use CustomerApi\Service\TokenService;
 use ProductApi\Model\ProductsTable;
 use Psr\Container\ContainerInterface;
+use CustomerApi\Model\Customers;
 
 class CartServiceFactory
 {
@@ -25,6 +26,7 @@ class CartServiceFactory
         $CartItems = $container->get(CartItems::class);
         $CartItemsTable = $container->get(CartItemsTable::class);
         $TokenService = $container->get(TokenService::class);
+        $Customers = $container->get(Customers::class);
 
         return new CartService(
             $CartTable,
@@ -34,7 +36,8 @@ class CartServiceFactory
             $Cart,
             $CartItems,
             $CartItemsTable,
-            $TokenService
+            $TokenService,
+            $Customers
         );
     }
 }
