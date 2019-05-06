@@ -9,7 +9,7 @@
 
 namespace JobApi;
 
-use JobApi\Listener\AuthListener;
+use CustomerApi\Listener\AuthListener;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -20,10 +20,18 @@ class Module
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-
         $sm = $e->getApplication()->getServiceManager();
+        // attach auth listener on every controller dispatch event
+        $eventManager->getSharedManager()->attach(
+            'SecuredController',
+            'dispatch',
+            function ($e) use ($sm) {
+                $authListener = new AuthListener();
+                return $authListener($e);
+            },
+            2
+        );
 
-       
     }
 
     public function getConfig()

@@ -9,7 +9,7 @@ use Zend\View\Model\JsonModel;
 
 class ShipmentController extends AbstractRestfulController
 {
-    //protected $eventIdentifier = 'SecuredController';
+    protected $eventIdentifier = 'SecuredController';
 
     private $JobService;
     private $ShipmentService;
@@ -24,12 +24,29 @@ class ShipmentController extends AbstractRestfulController
     public function create($data)
     {
         //need to move in http verb put
-        return new JsonModel([$this->ShipmentService->updateShippingInCart($data)]);
+        $shipment = $this->ShipmentService->updateShippingInCart($data);
+        if (!$shipment['isValid']) {
+            $this->getResponse()->setStatusCode(400);
+            return new JsonModel(["validation_error_messages" => $shipment['data']]);
+        } else {
+            return new JsonModel($shipment);
+        }
     }
 
     public function update($id, $data)
     {
         return new JsonModel([]);
+    }
+
+    public function get($id)
+    {
+        $shipment = $this->ShipmentService->getRatesPerShippingMethod($id);
+        if (!$shipment['isValid']) {
+            $this->getResponse()->setStatusCode(400);
+            return new JsonModel(["validation_error_messages" => $shipment['data']]);
+        } else {
+            return new JsonModel($shipment);
+        }
     }
 
 }

@@ -106,14 +106,14 @@ class CartService
         if (!$validation->isValid()) {
             return array("isValid" => false, "data" => $validation->getMessages());
         } else {
-            $existingCart = $this->CartTable->getCartByCartId($params);
+            $filteredParamData = $validation->getValues();
+            $existingCart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
             if (!$existingCart) {
                 return array("isValid" => false, "data" => "Invalid cart id");
             }
-          
             return array("isValid" => true, "data" => array(
-                "cartItemData" => $this->CartItemsTable->getCartItemById($params),
-                "cartData" => $this->CartTable->getCartByCartId($params),
+                "cartItemData" => $this->CartItemsTable->getCartItemById($filteredParamData['cart_id']),
+                "cartData" => $this->CartTable->getCartByCartId($filteredParamData['cart_id']),
             ));
 
         }

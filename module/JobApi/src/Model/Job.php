@@ -4,7 +4,7 @@ namespace JobApi\Model;
 
 class Job
 {
-    public $job_id;
+    public $job_order_id;
     public $customer_id;
     public $order_datetime;
     public $sub_total;
@@ -30,7 +30,7 @@ class Job
 
     public function exchangeArray(array $data)
     {
-        $this->job_id = !empty($data['job_id']) ? $data['job_id'] : null;
+        $this->job_order_id = !empty($data['job_order_id']) ? $data['job_order_id'] : null;
         $this->customer_id = !empty($data['customer_id']) ? $data['customer_id'] : null;
         $this->order_datetime = !empty($data['order_datetime']) ? $data['order_datetime'] : null;
         $this->sub_total = !empty($data['sub_total']) ? $data['sub_total'] : null;

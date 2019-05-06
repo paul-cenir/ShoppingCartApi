@@ -2,6 +2,7 @@
 
 namespace CartApi\ServiceFactory\Service;
 
+use CartApi\Filter\CartFilter;
 use CartApi\Filter\ShipmentFilter;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
@@ -17,7 +18,8 @@ class ShipmentServiceFactory
         $ShipmentFilter = $container->get(ShipmentFilter::class);
         $CartItemsTable = $container->get(CartItemsTable::class);
         $CartTable = $container->get(CartTable::class);
+        $CartFilter = $container->get(CartFilter::class);
 
-        return new ShipmentService($ShipmentTable, $ShipmentFilter, $CartItemsTable, $CartTable);
+        return new ShipmentService($ShipmentTable, $ShipmentFilter, $CartItemsTable, $CartTable, $CartFilter);
     }
 }

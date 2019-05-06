@@ -10,8 +10,7 @@ use Zend\View\Model\JsonModel;
 
 class JobController extends AbstractRestfulController
 {
-    //protected $eventIdentifier = 'SecuredController';
-
+    protected $eventIdentifier = 'SecuredController';
     private $JobTable;
     private $JobItemsTable;
     private $JobService;
@@ -28,13 +27,23 @@ class JobController extends AbstractRestfulController
 
     public function create($data)
     {
-        $params = $this->params()->fromPost();
-        $jobDetails = $this->JobService->addJob($params);
-        if ($jobDetails['isValid']) {
-            return new JsonModel([$jobDetails['data']]);
-        } else {
+        $jobDetails = $this->JobService->addJob($data);
+        if (!$jobDetails['isValid']) {
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $jobDetails['data']]);
+        } else {
+            return new JsonModel([$jobDetails['data']]);
+        }
+    }
+
+    public function get($id)
+    {
+        $job = $this->JobService->getJob($id);
+        if (!$job['isValid']) {
+            $this->getResponse()->setStatusCode(400);
+            return new JsonModel(["validation_error_messages" => $job['data']]);
+        } else {
+            return new JsonModel($job);
         }
     }
 

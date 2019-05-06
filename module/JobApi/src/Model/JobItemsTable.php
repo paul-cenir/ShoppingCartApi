@@ -38,7 +38,7 @@ class JobItemsTable
         $sql = $this->tableGateway->getSql();
         $select = $sql->select()
             ->columns(array('price' => new \Zend\Db\Sql\Expression('SUM(price)')))
-            ->where(array("Job_id" => $id));
+            ->where(array("job_order_id" => $id));
 
         $rowData = $this->tableGateway->selectWith($select)->toArray();
         return $rowData;
@@ -46,11 +46,6 @@ class JobItemsTable
 
     public function copyCartItemsToJobItems($cartId, $jobOrderId)
     {
-        // INSERT INTO job_items (job_order_id, product_id, weight, qty,unit_price,price)
-        // SELECT 2, cart_items.product_id,cart_items.weight,cart_items.qty,cart_items.unit_price,cart_items.price
-        // FROM cart_items
-        // WHERE cart_items.cart_id = 101
-        $cartId = $cartId;
         $jobOrderId = strval($jobOrderId);
         $select = new Select('cart_items');
         $select->columns(array('job_order_id' => new \Zend\Db\Sql\Expression($jobOrderId), 'product_id', 'weight', 'qty', 'unit_price', 'price'))
@@ -63,4 +58,32 @@ class JobItemsTable
         return $this->tableGateway->getLastInsertValue();
     }
 
+    public function getJobItemById($id)
+    {
+        $select = $this->tableGateway->getSql()->select();
+        $select->columns(array(
+            "job_item_id" => "job_item_id",
+            "job_order_id" => "job_order_id",
+            "product_id" => "product_id",
+            "weight" => "weight",
+            "qty" => "qty",
+            "unit_price" => "unit_price",
+            "sub_total" => "price",
+        ));
+        $select->join(
+            array("p" => "products"),
+            "p.product_id = job_items.product_id",
+            array("*")
+        )
+        ->where(array(
+            "job_items.job_order_id" => $id,
+        ));
+
+        $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
+        $data = array();
+        foreach ($resultSet as $row) {
+            array_push($data,$row);
+        }
+        return $data; 
+    }
 }

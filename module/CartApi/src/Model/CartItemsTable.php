@@ -46,11 +46,7 @@ class CartItemsTable
         foreach ($resultSet as $row) {
             array_push($data,$row);
         }
-        // $test = $this->tableGateway->getSql()->getSqlStringForSqlObject($select);
-        // var_dump($test);
-        // exit;
-        return $data;
-        
+        return $data; 
     }
 
     public function addCartItem(CartItems $cart)

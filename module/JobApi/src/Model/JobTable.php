@@ -17,28 +17,9 @@ class JobTable
 
     }
 
-    public function getJobListByCustomerId($id)
-    {
-        // return $this->tableGateway->select()->toArray();
-
-        $select = $this->tableGateway->getSql()->select();
-        $select->columns(array("*"));
-        $select->join(
-            array("ci" => "job_items"),
-            "ci.job_id = jobs.job_id",
-            array("*")
-        )->where(array(
-            "jobs.customer_id" => 1,
-        ));
-
-        $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
-        return $resultSet;
-
-    }
-
     public function getJobByJobId($id)
     {
-        return $this->tableGateway->select(['job_id' => $id])->current();
+        return $this->tableGateway->select(['job_order_id' => $id])->current();
     }
 
     public function getJobByCustomerId($id)
@@ -55,11 +36,6 @@ class JobTable
 
     public function copyCartToJob($cartId)
     {
-        //or this
-        // INSERT INTO job ()
-        // SELECT 2
-        // FROM carts
-        // WHERE carts.cart_id = 101
         $select = new Select('carts');
         $select->columns(array('customer_id', 'order_datetime', 'sub_total', 'taxable_amount', 'discount', 'tax',
             'shipping_total', 'total_amount', 'total_weight', 'company_name', 'email', 'first_name', 'last_name', 'phone',

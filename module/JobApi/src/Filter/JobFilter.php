@@ -9,7 +9,7 @@ class JobFilter extends InputFilter
 {
     public function __construct()
     {
-        
+        $this->InputFilter = new InputFilter();
         $this->add(array(
             'name' => 'cart_id',
             'required' => true,
@@ -29,4 +29,20 @@ class JobFilter extends InputFilter
             ),
         ));
     }
+
+    public function getJobFilter()
+    {
+        $this->InputFilter->add(array(
+            'name' => 'job_order_id',
+            'required' => true,
+            'filters' => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+        ));
+
+        return $this->InputFilter;
+    }
+
+
 }

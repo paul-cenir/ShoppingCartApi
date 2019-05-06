@@ -2,6 +2,7 @@
 
 namespace CartApi\Service;
 
+use CartApi\Filter\CartFilter;
 use CartApi\Filter\ShipmentFilter;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
@@ -13,16 +14,19 @@ class ShipmentService
     private $ShipmentFilter;
     private $CartItemsTable;
     private $CartTable;
+    private $CartFilter;
     public function __construct(
         ShipmentTable $ShipmentTable,
         ShipmentFilter $ShipmentFilter,
         CartItemsTable $CartItemsTable,
-        CartTable $CartTable
+        CartTable $CartTable,
+        CartFilter $CartFilter
     ) {
         $this->ShipmentTable = $ShipmentTable;
         $this->ShipmentFilter = $ShipmentFilter;
         $this->CartItemsTable = $CartItemsTable;
         $this->CartTable = $CartTable;
+        $this->CartFilter = $CartFilter;
     }
 
     public function computeShippingTotal($shippingMethod, $totalWeight)
@@ -30,7 +34,7 @@ class ShipmentService
         $shippingTotal = [];
         $heaviestWeight = $this->ShipmentTable->getHeaviestWeightByShippingMethod($shippingMethod);
         $shipmentList = $this->ShipmentTable->getShipmentList();
-        if($shippingMethod == "Ground" || $shippingMethod == "Expedited") {
+        if ($shippingMethod == "Ground" || $shippingMethod == "Expedited") {
             while ($totalWeight > 0) {
                 if ($heaviestWeight['max_weight'] <= $totalWeight) {
                     $totalWeight -= $heaviestWeight['max_weight'];
@@ -45,7 +49,6 @@ class ShipmentService
                 }
             }
             return array_sum($shippingTotal);
-         
         } else {
             return 0;
         }
@@ -64,13 +67,31 @@ class ShipmentService
         $filteredParamData['total_amount'] = ($filteredParamData['shipping_total'] +
             $this->CartItemsTable->computeCartTotalPriceByCartId($filteredParamData['cart_id'])
         );
-
-     
         $this->CartTable->updateCartShippingById($filteredParamData);
+        return array("isValid" => true, "data" => "success");
+    }
 
-        var_dump($filteredParamData['total_amount']);
-        exit;
-
+    public function getRatesPerShippingMethod($params)
+    {
+        $cartData = array("cart_id" => $params);
+        $validation = $this->CartFilter->getCartFilter()->setData($cartData);
        
+        if (!$validation->isValid()) {
+            return array("isValid" => false, "data" => $validation->getMessages());
+        } else {
+            $existingCart = $this->CartTable->getCartByCartId($params);
+            if (!$existingCart) {
+                return array("isValid" => false, "data" => "Invalid cart id");
+            }
+            $filteredParamData = $validation->getValues();
+            return array("isValid" => true, "data" => array(
+                "Ground" => $this->computeShippingTotal('Ground',
+                    $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id'])
+                ),
+                "Expedited" => $this->computeShippingTotal('Expedited',
+                    $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id'])
+                ),
+            ));
+        }
     }
 }

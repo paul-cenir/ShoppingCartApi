@@ -10,6 +10,7 @@ use JobApi\Model\JobItemsTable;
 use JobApi\Model\JobTable;
 use JobApi\Service\JobService;
 use ProductApi\Model\ProductsTable;
+use CartApi\Model\CartTable;
 use Psr\Container\ContainerInterface;
 
 class JobServiceFactory
@@ -23,7 +24,8 @@ class JobServiceFactory
         $Job = $container->get(Job::class);
         $JobItems = $container->get(JobItems::class);
         $JobItemsTable = $container->get(JobItemsTable::class);
+        $CartTable = $container->get(CartTable::class);
 
-        return new JobService($JobTable, $JobFilter, $ProductsTable, $CustomersTable, $Job, $JobItems, $JobItemsTable);
+        return new JobService($JobTable, $JobFilter, $ProductsTable, $CustomersTable, $Job, $JobItems, $JobItemsTable, $CartTable);
     }
 }
