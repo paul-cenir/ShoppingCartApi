@@ -55,3 +55,4 @@ class JobTable
         return $this->tableGateway->getLastInsertValue();
     }
 }
+
