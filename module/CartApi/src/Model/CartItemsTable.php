@@ -20,6 +20,11 @@ class CartItemsTable
         return $this->tableGateway->select()->toArray();
     }
 
+    public function getCartItemId($id)
+    {
+        return $this->tableGateway->select(['cart_item_id' => $id])->current();
+    }
+
     public function getCartItemById($id)
     {
         $select = $this->tableGateway->getSql()->select();
@@ -82,10 +87,5 @@ class CartItemsTable
     public function deleteCartItem($id)
     {
         $this->tableGateway->delete(['cart_item_id' => (int) $id]);
-    }
-    
-    public function deleteAllCartItemByCartId($id)
-    {
-        $this->tableGateway->delete(['cart_id' => (int) $id]);
     }
 }

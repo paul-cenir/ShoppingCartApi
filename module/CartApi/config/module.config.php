@@ -3,7 +3,9 @@ namespace CartApi;
 
 use Zend\Mvc\Router\Http\Segment;
 use CartApi\Controller\CartController;
+use CartApi\Controller\CartItemController;
 use CartApi\ServiceFactory\Controller\CartControllerFactory;
+use CartApi\ServiceFactory\Controller\CartItemControllerFactory;
 use CartApi\ServiceFactory\Model\CartTableFactory;
 use CartApi\ServiceFactory\Model\CartItemsTableFactory;
 use CartApi\Model\CartTable;
@@ -12,8 +14,11 @@ use CustomerApi\Model\Customers;
 use CartApi\Model\CartItems;
 use CartApi\Model\CartItemsTable;
 use CartApi\Service\CartService;
+use CartApi\Service\CartItemService;
 use CartApi\ServiceFactory\Service\CartServiceFactory;
+use CartApi\ServiceFactory\Service\CartItemServiceFactory;
 use CartApi\Filter\CartFilter;
+use CartApi\Filter\CartItemFilter;
 use CartApi\Controller\ShipmentController;
 use CartApi\ServiceFactory\Controller\ShipmentControllerFactory;
 use CartApi\Model\Shipment;
@@ -52,12 +57,26 @@ return array(
                     ],
                 ],
             ],
+            'cart-item' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/cart-item[/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]+',
+                    ),
+                    'defaults' => [
+                        'controller' => CartItemController::class,
+                    ],
+                ],
+            ],
         ],
     ],
 
     'controllers' => array(
         'factories' => array(
             CartController::class => CartControllerFactory::class,
+            CartItemController::class => CartItemControllerFactory::class,
             ShipmentController::class => ShipmentControllerFactory::class,
         ),
 
@@ -69,11 +88,13 @@ return array(
             CartTable::class => CartTableFactory::class,
             CartItemsTable::class => CartItemsTableFactory::class,
             CartService::class => CartServiceFactory::class,
+            CartItemService::class => CartItemServiceFactory::class,
             ShipmentService::class => ShipmentServiceFactory::class,
             ShipmentTable::class => ShipmentTableFactory::class,
         ),
         'invokables' => array(
             CartFilter::class => CartFilter::class,
+            CartItemFilter::class => CartItemFilter::class,
             Cart::class => Cart::class,
             CartItems::class => CartItems::class,
             ShipmentFilter::class => ShipmentFilter::class,
