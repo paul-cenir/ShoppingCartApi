@@ -55,10 +55,10 @@ class CartService
             $filteredParamData['customer_id'] = $this->TokenService->getCutomerIdInAccessToken($accessToken);
             $existingCart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
             $productDetails = $this->ProductTable->getProductById($filteredParamData['product_id']);
-            $customerDtetails = $this->CustomersTable->getCustomerById($filteredParamData['customer_id']);
+            $customer = $this->CustomersTable->getCustomerById($filteredParamData['customer_id']);
             if ($productDetails['stock_qty'] >= $filteredParamData['qty']) {
-                if ($customerDtetails) {
-                    $cartData = array_merge($customerDtetails, $filteredParamData);
+                if ($customer) {
+                    $cartData = array_merge($customer, $filteredParamData);
                 } else {
                     $cartData = $filteredParamData;
                     $this->Customers->exchangeArray([]);
@@ -73,6 +73,7 @@ class CartService
                 $cartItemData['weight'] = $weight;
                 if (!$existingCart) {
                     $cartData['sub_total'] = $price;
+                    $cartData['total_amount'] = $price;
                     $this->Cart->exchangeArray($cartData);
                     $cartId = $this->CartTable->addCart($this->Cart);
                     $cartItemData['cart_id'] = $cartId;
@@ -80,12 +81,14 @@ class CartService
                     $this->CartItemsTable->addCartItem($this->CartItems);
                     return array("isValid" => true, "data" => array("cartId" => $cartId));
                 } else {
+                    $existingCart = get_object_vars( $existingCart);
                     $newCartData = [];
                     $this->CartItems->exchangeArray($cartItemData);
                     $addedCartItem = $this->CartItemsTable->addCartItem($this->CartItems);
                     $subTotal = $this->CartItemsTable->computeCartTotalPriceByCartId($filteredParamData['cart_id']);
                     $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id']);
                     $newCartData['sub_total'] = $subTotal;
+                    $newCartData['total_amount'] = $subTotal + $existingCart['shipping_total'];
                     $newCartData['cart_id'] = $filteredParamData['cart_id'];
                     $newCartData['total_weight'] = $totalWeight;
                     $newCartData['customer_id'] = $filteredParamData['customer_id'];

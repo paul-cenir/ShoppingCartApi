@@ -22,11 +22,6 @@ class LoginController extends AbstractRestfulController
 
     public function create($data)
     {
-        //get input in Client
-        //validate and sanitize
-        //validate if account is valid
-        //create access token
-        //return success
         $accountData = $this->LoginService->checkAccountIfValid($data);
         if (!$accountData['isValid']) {
             $this->getResponse()->setStatusCode(400);
