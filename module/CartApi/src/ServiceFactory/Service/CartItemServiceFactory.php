@@ -2,14 +2,12 @@
 
 namespace CartApi\ServiceFactory\Service;
 
-
-use CartApi\Service\CartItemService;
+use CartApi\Filter\CartItemFilter;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
-use CartApi\Filter\CartItemFilter;
+use CartApi\Service\CartItemService;
 use CartApi\Service\ShipmentService;
 use Psr\Container\ContainerInterface;
-
 
 class CartItemServiceFactory
 {

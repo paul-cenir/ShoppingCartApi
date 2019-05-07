@@ -2,8 +2,8 @@
 
 namespace CartApi\Controller;
 
-use Zend\Mvc\Controller\AbstractRestfulController;
 use CartApi\Service\CartItemService;
+use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 class CartItemController extends AbstractRestfulController
@@ -17,7 +17,7 @@ class CartItemController extends AbstractRestfulController
 
     public function delete($id)
     {
-        $cartItem = $this->CartItemService->deleteCartItem($id);
+        $cartItem = $this->CartItemService->deleteUpdateCart($id);
         if (!$cartItem['isValid']) {
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $cartItem['data']]);

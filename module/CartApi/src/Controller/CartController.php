@@ -37,4 +37,15 @@ class CartController extends AbstractRestfulController
             return new JsonModel($cart);
         }
     }
+
+    public function delete($id)
+    {
+        $cart = $this->CartService->deleteCart($id);
+        if (!$cart['isValid']) {
+            $this->getResponse()->setStatusCode(400);
+            return new JsonModel(["validation_error_messages" => $cart['data']]);
+        } else {
+            return new JsonModel($cart['data']);
+        }
+    }
 }

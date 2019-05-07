@@ -25,12 +25,10 @@ class CartItemService
         $this->ShipmentService = $ShipmentService;
     }
 
-    public function deleteCartItem($params)
+    public function deleteUpdateCart($params)
     {
-
         $cartData = array("cart_item_id" => $params);
         $validation = $this->CartItemFilter->getCartItemFilter()->setData($cartData);
-
         if (!$validation->isValid()) {
             return array("isValid" => false, "data" => $validation->getMessages());
         } else {
@@ -40,7 +38,7 @@ class CartItemService
             if (!$existingCartItem) {
                 return array("isValid" => false, "data" => "Invalid cart item id");
             } else {
-
+                $this->CartItemsTable->deleteCartItem($filteredParamData['cart_item_id']);
                 $cart = $this->CartTable->getCartByCartId($existingCartItem->cart_id);
                 $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($existingCartItem->cart_id);
                 $subTotal = $this->CartItemsTable->computeCartTotalPriceByCartId($existingCartItem->cart_id);
@@ -51,7 +49,6 @@ class CartItemService
                     'total_weight' => $totalWeight,
                     'cart_id' => $existingCartItem->cart_id,
                 ];
-                $this->CartItemsTable->deleteCartItem($filteredParamData['cart_item_id']);
                 $this->CartTable->updateCartById($data);
                 return array("isValid" => true, "data" => ["success"]);
             }

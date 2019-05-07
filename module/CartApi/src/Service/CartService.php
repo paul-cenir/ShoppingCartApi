@@ -121,4 +121,24 @@ class CartService
 
         }
     }
+
+    public function deleteCart($params)
+    {
+        $cartData = array("cart_id" => $params);
+        $validation = $this->CartFilter->getCartFilter()->setData($cartData);
+        if (!$validation->isValid()) {
+            return array("isValid" => false, "data" => $validation->getMessages());
+        } else {
+            $filteredParamData = $validation->getValues();
+            $existingCart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
+
+            if (!$existingCart) {
+                return array("isValid" => false, "data" => "Invalid cart item id");
+            } else {
+                $this->CartTable->deleteCart($filteredParamData['cart_id']);
+                $this->CartItemsTable->deleteCartItemByCartId($filteredParamData['cart_id']);
+                return array("isValid" => true, "data" => ["success"]);
+            }
+        }
+    }
 }

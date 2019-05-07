@@ -10,9 +10,7 @@ class CartItemsTable
 
     public function __construct(TableGateway $tableGateway)
     {
-
         $this->tableGateway = $tableGateway;
-
     }
 
     public function getCartItemList()
@@ -87,5 +85,9 @@ class CartItemsTable
     public function deleteCartItem($id)
     {
         $this->tableGateway->delete(['cart_item_id' => (int) $id]);
+    }
+    public function deleteCartItemByCartId($id)
+    {
+        $this->tableGateway->delete(['cart_id' => (int) $id]);
     }
 }
