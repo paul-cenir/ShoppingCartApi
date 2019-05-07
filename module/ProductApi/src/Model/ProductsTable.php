@@ -22,7 +22,8 @@ class ProductsTable
 
     public function getProductById($id)
     {
-        return get_object_vars($this->tableGateway->select(['product_id' => $id])->current());
+        $data = $this->tableGateway->select(['product_id' => $id])->current();
+        return $data ? get_object_vars($data) : $data;
     }
 
 }

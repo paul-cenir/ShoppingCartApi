@@ -79,11 +79,12 @@ class JobService
             if (!$existingJob) {
                 return array("isValid" => false, "data" => "Invalid job id");
             }
+            $job = $this->JobTable->getJobByJobId($filteredParamData['job_order_id']);
+            $job->job_order_id = "0000".$job->job_order_id ;
             return array("isValid" => true, "data" => array(
                 "jobItemData" => $this->JobItemsTable->getJobItemById($filteredParamData['job_order_id']),
-                "jobData" => $this->JobTable->getJobByJobId($filteredParamData['job_order_id']),
+                "jobData" => $job,
             ));
-
         }
     }
 }

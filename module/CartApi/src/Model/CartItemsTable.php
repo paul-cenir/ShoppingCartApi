@@ -78,6 +78,14 @@ class CartItemsTable
 
         return $subTotal[0]['weight'];
     }
-    
 
+    public function deleteCartItem($id)
+    {
+        $this->tableGateway->delete(['cart_item_id' => (int) $id]);
+    }
+    
+    public function deleteAllCartItemByCartId($id)
+    {
+        $this->tableGateway->delete(['cart_id' => (int) $id]);
+    }
 }

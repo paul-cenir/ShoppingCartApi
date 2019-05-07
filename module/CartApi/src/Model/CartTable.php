@@ -60,4 +60,9 @@ class CartTable
        
         return $this->tableGateway->update($data, ['cart_id' => $data['cart_id']]);
     }
+
+    public function deleteCart($id)
+    {
+        $this->tableGateway->delete(['cart_id' => (int) $id]);
+    }
 }
