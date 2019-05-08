@@ -45,7 +45,6 @@ EOD;
 
     public function generateToken(array $tokenPayload)
     {
-
         $token = array(
             "iss" => "example.org",
             "aud" => "example.com",
@@ -56,7 +55,6 @@ EOD;
         );
 
         $jwt = JWT::encode($token, $this->privateKey, 'RS256');
-
         return $jwt;
     }
 
@@ -95,8 +93,8 @@ EOD;
             } catch (\Exception $e) {
                 $decoded = false;
             }
-            $customerData = get_object_vars($decoded);
-            $customeData = get_object_vars($customerData['data']);
+            $customerData = $decoded ? get_object_vars($decoded): $decoded;
+            $customeData = $customerData['data'] ? get_object_vars($customerData['data']) : $customerData['data'];
             $customer_id = (int) $customeData['customer_id'];
         } else {
             $customer_id = 0;
