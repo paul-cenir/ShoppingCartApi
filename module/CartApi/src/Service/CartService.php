@@ -83,7 +83,7 @@ class CartService
                         $existingProductInItem = $this->CartItemsTable->getItemByProductIdAndCartId($filteredParamData['product_id'], $filteredParamData['cart_id']);
                         if ($existingProductInItem) {
                             $newQty = $filteredParamData['qty'] + $existingProductInItem['qty'];
-                            if($productDetails['stock_qty'] < $newQty) {
+                            if ($productDetails['stock_qty'] < $newQty) {
                                 return array("isValid" => false, "data" => "insufficient stock");
                             }
                             $data = [
@@ -122,7 +122,6 @@ class CartService
     {
         $cartData = array("cart_id" => $params);
         $validation = $this->CartFilter->getCartFilter()->setData($cartData);
-
         if (!$validation->isValid()) {
             return array("isValid" => false, "data" => $validation->getMessages());
         } else {
@@ -135,7 +134,6 @@ class CartService
                 "cartItemData" => $this->CartItemsTable->getCartItemById($filteredParamData['cart_id']),
                 "cartData" => $this->CartTable->getCartByCartId($filteredParamData['cart_id']),
             ));
-
         }
     }
 
