@@ -83,6 +83,9 @@ class CartService
                         $existingProductInItem = $this->CartItemsTable->getItemByProductIdAndCartId($filteredParamData['product_id'], $filteredParamData['cart_id']);
                         if ($existingProductInItem) {
                             $newQty = $filteredParamData['qty'] + $existingProductInItem['qty'];
+                            if($productDetails['stock_qty'] < $newQty) {
+                                return array("isValid" => false, "data" => "insufficient stock");
+                            }
                             $data = [
                                 "qty" => $newQty,
                                 "price" => $productDetails['price'] * $newQty,
