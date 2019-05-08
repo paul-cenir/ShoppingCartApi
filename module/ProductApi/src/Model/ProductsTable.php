@@ -26,4 +26,9 @@ class ProductsTable
         return $data ? get_object_vars($data) : $data;
     }
 
+    public function updateProductById($data)
+    {
+        return $this->tableGateway->update($data, ['product_id' => $data['product_id']]);
+    }
+
 }

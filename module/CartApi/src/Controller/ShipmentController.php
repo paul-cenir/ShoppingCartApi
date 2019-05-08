@@ -51,7 +51,7 @@ class ShipmentController extends AbstractRestfulController
 
     public function getList()
     {
-        return new JsonModel([$this->ShipmentService->computeShippingTotal("Expedited", 10.10)]);
+        return new JsonModel([$this->ShipmentService->getRatesPerShippingMethod(23)]);
     }
 
 }

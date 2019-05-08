@@ -27,7 +27,7 @@ class JobController extends AbstractRestfulController
 
     public function create($data)
     {
-        $jobDetails = $this->JobService->addJob($data);
+        $jobDetails = $this->JobService->addJobAndUpdateStockQty($data);
         if (!$jobDetails['isValid']) {
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $jobDetails['data']]);
@@ -45,6 +45,11 @@ class JobController extends AbstractRestfulController
         } else {
             return new JsonModel($job);
         }
+    }
+
+    public function getList()
+    {
+        $this->JobService->addJobAndUpdateStockQty(11);
     }
 
 }

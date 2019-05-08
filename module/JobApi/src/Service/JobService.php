@@ -2,6 +2,7 @@
 
 namespace JobApi\Service;
 
+use CartApi\Model\CartTable;
 use CustomerApi\Model\CustomersTable;
 use JobApi\Filter\JobFilter;
 use JobApi\Model\Job;
@@ -9,7 +10,6 @@ use JobApi\Model\JobItems;
 use JobApi\Model\JobItemsTable;
 use JobApi\Model\JobTable;
 use ProductApi\Model\ProductsTable;
-use CartApi\Model\CartTable;
 
 class JobService
 {
@@ -41,6 +41,21 @@ class JobService
         $this->CartTable = $CartTable;
     }
 
+    public function updateStockQty($jobId)
+    {
+        $jobItems = $this->JobItemsTable->getJobItemList($jobId);
+        foreach ($jobItems as $jobItem) {
+            $jobItem['qty'];
+            $product = $this->ProductTable->getProductById($jobItem['product_id']);
+            $product['stock_qty'];
+            $data = [
+                "product_id" => $product['product_id'],
+                "stock_qty" => $product['stock_qty'] - $jobItem['qty'],
+            ];
+            $this->ProductTable->updateProductById($data);
+        }
+    }
+
     public function addJob($params)
     {
         $jobData = array("cart_id" => $params);
@@ -51,7 +66,7 @@ class JobService
 
         $filteredParamData = $this->JobFilter->getValues();
         $cart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
-        if(!$cart) {
+        if (!$cart) {
             return array("isValid" => false, "data" => 'Invalid cart id');
         } else {
             $jobId = $this->JobTable->copyCartToJob($filteredParamData['cart_id']);
@@ -60,14 +75,22 @@ class JobService
             } else {
                 $this->JobItemsTable->copyCartItemsToJobItems($filteredParamData['cart_id'], $jobId);
                 return array("isValid" => true, "data" => $jobId);
+
             }
         }
-       
+
+    }
+
+    public function addJobAndUpdateStockQty($params)
+    {
+        $job = $this->addJob($params);
+        $this->updateStockQty($job['data']);
+        return array("isValid" => true, "data" => $job['data']);
     }
 
     public function getJob($params)
     {
-   
+
         $jobData = array("job_order_id" => $params);
         $validation = $this->JobFilter->getJobFilter()->setData($jobData);
 
@@ -80,7 +103,7 @@ class JobService
                 return array("isValid" => false, "data" => "Invalid job id");
             }
             $job = $this->JobTable->getJobByJobId($filteredParamData['job_order_id']);
-            $job->job_order_id = "0000".$job->job_order_id ;
+            $job->job_order_id = "0000" . $job->job_order_id;
             return array("isValid" => true, "data" => array(
                 "jobItemData" => $this->JobItemsTable->getJobItemById($filteredParamData['job_order_id']),
                 "jobData" => $job,

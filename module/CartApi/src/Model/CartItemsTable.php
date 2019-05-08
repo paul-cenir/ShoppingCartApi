@@ -90,4 +90,16 @@ class CartItemsTable
     {
         $this->tableGateway->delete(['cart_id' => (int) $id]);
     }
+
+    public function getItemByProductIdAndCartId($productId,$cartId)
+    {
+        $data = $this->tableGateway->select(['product_id' => $productId,"cart_id" => $cartId])->current();
+       
+        return $data? get_object_vars($data) : $data;
+    }
+
+    public function updateCartItemById($data)
+    {
+        return $this->tableGateway->update($data, ['cart_item_id' => $data['cart_item_id']]);
+    }
 }

@@ -17,9 +17,9 @@ class JobItemsTable
 
     }
 
-    public function getJobItemList()
+    public function getJobItemList($id)
     {
-        return $this->tableGateway->select()->toArray();
+        return $this->tableGateway->select(['job_order_id' => $id])->toArray();
     }
 
     public function getJobItemByItemId($id)

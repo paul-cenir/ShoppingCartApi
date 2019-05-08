@@ -2,7 +2,6 @@
 
 namespace CartApi\Model;
 
-use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
 
 class ShipmentTable
@@ -19,6 +18,19 @@ class ShipmentTable
     public function getShipmentList()
     {
         return $this->tableGateway->select()->toArray();
+    }
+
+    public function getShipmentMethod()
+    {
+        $sql = $this->tableGateway->getSql();
+        $select = $sql->select();
+        $select->columns(array('shipping_method' => new \Zend\Db\Sql\Expression('DISTINCT(shipping_method)')));
+        $rowData = $this->tableGateway->selectWith($select)->toArray();
+        foreach ($rowData as $row) {
+          $shippingMethod[] = $row['shipping_method'];
+           
+        }
+        return $shippingMethod;
     }
 
     public function getHeaviestWeightByShippingMethod($shippingMethod)
