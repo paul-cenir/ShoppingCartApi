@@ -4,6 +4,7 @@ namespace JobApi\Service;
 
 use CartApi\Model\CartTable;
 use CustomerApi\Model\CustomersTable;
+use CustomerApi\Service\TokenService;
 use JobApi\Filter\JobFilter;
 use JobApi\Model\Job;
 use JobApi\Model\JobItems;
@@ -21,6 +22,7 @@ class JobService
     private $JobItems;
     private $JobItemsTable;
     private $CartTable;
+    private $TokenService;
     public function __construct(
         JobTable $JobTable,
         JobFilter $JobFilter,
@@ -29,7 +31,8 @@ class JobService
         Job $Job,
         JobItems $JobItems,
         JobItemsTable $JobItemsTable,
-        CartTable $CartTable
+        CartTable $CartTable,
+        TokenService $TokenService
     ) {
         $this->JobTable = $JobTable;
         $this->JobFilter = $JobFilter;
@@ -39,6 +42,7 @@ class JobService
         $this->JobItems = $JobItems;
         $this->JobItemsTable = $JobItemsTable;
         $this->CartTable = $CartTable;
+        $this->TokenService = $TokenService;
     }
 
     public function updateStockQty($jobId)
@@ -56,7 +60,7 @@ class JobService
         }
     }
 
-    public function addJob($params)
+    public function addJob($params, $accessToken)
     {
         $jobData = array("cart_id" => $params);
         $this->JobFilter->setData($jobData);
@@ -69,6 +73,11 @@ class JobService
         if (!$cart) {
             return array("isValid" => false, "data" => 'Invalid cart id');
         } else {
+            $customerId = $this->TokenService->getCutomerIdInAccessToken($accessToken);
+            $customer = $this->CustomersTable->getCustomerById($customerId);
+            $customer['cart_id'] = $filteredParamData['cart_id'];
+            unset($customer["password"]);
+            $this->CartTable->updateCartById($customer);
             $jobId = $this->JobTable->copyCartToJob($filteredParamData['cart_id']);
             if (!$jobId) {
                 return array("isValid" => false, "data" => 'Invalid job id');
@@ -81,9 +90,9 @@ class JobService
 
     }
 
-    public function addJobAndUpdateStockQty($params)
+    public function addJobAndUpdateStockQty($params, $accessToken)
     {
-        $job = $this->addJob($params);
+        $job = $this->addJob($params, $accessToken);
         $this->updateStockQty($job['data']);
         return array("isValid" => true, "data" => $job['data']);
     }

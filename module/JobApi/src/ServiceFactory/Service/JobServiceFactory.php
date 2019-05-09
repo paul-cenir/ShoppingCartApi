@@ -2,7 +2,9 @@
 
 namespace JobApi\ServiceFactory\Service;
 
+use CartApi\Model\CartTable;
 use CustomerApi\Model\CustomersTable;
+use CustomerApi\Service\TokenService;
 use JobApi\Filter\JobFilter;
 use JobApi\Model\Job;
 use JobApi\Model\JobItems;
@@ -10,7 +12,6 @@ use JobApi\Model\JobItemsTable;
 use JobApi\Model\JobTable;
 use JobApi\Service\JobService;
 use ProductApi\Model\ProductsTable;
-use CartApi\Model\CartTable;
 use Psr\Container\ContainerInterface;
 
 class JobServiceFactory
@@ -25,7 +26,8 @@ class JobServiceFactory
         $JobItems = $container->get(JobItems::class);
         $JobItemsTable = $container->get(JobItemsTable::class);
         $CartTable = $container->get(CartTable::class);
+        $TokenService = $container->get(TokenService::class);
 
-        return new JobService($JobTable, $JobFilter, $ProductsTable, $CustomersTable, $Job, $JobItems, $JobItemsTable, $CartTable);
+        return new JobService($JobTable, $JobFilter, $ProductsTable, $CustomersTable, $Job, $JobItems, $JobItemsTable, $CartTable, $TokenService);
     }
 }
