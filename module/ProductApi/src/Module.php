@@ -31,7 +31,6 @@ class Module
             },
             2
         );
-
     }
 
     public function getConfig()
