@@ -9,7 +9,7 @@ class Shipment
     public $max_weight;
     public $shipping_method;
     public $shipping_rate;
-  
+
     public function exchangeArray(array $data)
     {
         $this->shipping_id = !empty($data['shipping_id']) ? $data['shipping_id'] : null;

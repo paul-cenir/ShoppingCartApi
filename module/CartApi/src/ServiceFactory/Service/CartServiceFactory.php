@@ -8,11 +8,11 @@ use CartApi\Model\CartItems;
 use CartApi\Model\CartItemsTable;
 use CartApi\Model\CartTable;
 use CartApi\Service\CartService;
+use CustomerApi\Model\Customers;
 use CustomerApi\Model\CustomersTable;
 use CustomerApi\Service\TokenService;
 use ProductApi\Model\ProductsTable;
 use Psr\Container\ContainerInterface;
-use CustomerApi\Model\Customers;
 
 class CartServiceFactory
 {

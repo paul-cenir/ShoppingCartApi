@@ -10,12 +10,12 @@ use CustomerApi\Model\CustomersTable;
 use CustomerApi\ServiceFactory\Controller\LoginControllerFactory;
 use CustomerApi\ServiceFactory\Controller\RegistrationControllerFactory;
 use CustomerApi\ServiceFactory\Model\CustomersTableFactory;
-use CustomerApi\ServiceFactory\Service\TokenServiceFactory;
 use CustomerApi\ServiceFactory\Service\LoginServiceFactory;
 use CustomerApi\ServiceFactory\Service\RegistrationServiceFactory;
-use CustomerApi\Service\TokenService;
+use CustomerApi\ServiceFactory\Service\TokenServiceFactory;
 use CustomerApi\Service\LoginService;
 use CustomerApi\Service\RegistrationService;
+use CustomerApi\Service\TokenService;
 use Zend\Mvc\Router\Http\Segment;
 
 return array(
@@ -50,7 +50,6 @@ return array(
 
         ],
     ],
-
     'controllers' => array(
         'factories' => array(
             RegistrationController::class => RegistrationControllerFactory::class,

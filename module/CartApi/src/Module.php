@@ -9,9 +9,9 @@
 
 namespace CartApi;
 
+use CustomerApi\Listener\AuthListener;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use CustomerApi\Listener\AuthListener;
 
 class Module
 {
@@ -33,7 +33,6 @@ class Module
             },
             2
         );
-
     }
 
     public function getConfig()

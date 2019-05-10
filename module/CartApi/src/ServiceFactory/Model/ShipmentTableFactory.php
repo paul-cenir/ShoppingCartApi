@@ -16,7 +16,7 @@ class ShipmentTableFactory
         $dbAdapter = $container->get('shoppingcart');
         $resultSetPrototype = new ResultSet();
         $resultSetPrototype->setArrayObjectPrototype(new Shipment());
-       
+
         // create TableGateway instance
         $tableGateway = new TableGateway(
             'shipping',

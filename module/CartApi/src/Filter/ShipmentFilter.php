@@ -9,13 +9,12 @@ class ShipmentFilter extends InputFilter
 {
     public function __construct()
     {
-        
         $this->add(array(
             'name' => 'shipping_name',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -29,17 +28,18 @@ class ShipmentFilter extends InputFilter
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_address1',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -53,49 +53,52 @@ class ShipmentFilter extends InputFilter
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_address2',
             'required' => false,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_address3',
             'required' => false,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_city',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -109,17 +112,18 @@ class ShipmentFilter extends InputFilter
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_state',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -133,17 +137,18 @@ class ShipmentFilter extends InputFilter
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_country',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -157,17 +162,18 @@ class ShipmentFilter extends InputFilter
                 array(
                     'name' => 'string_length',
                     'options' => array(
-                        'max' => 35
+                        'max' => 35,
                     ),
                 ),
             ),
         ));
+
         $this->add(array(
             'name' => 'shipping_mehod',
             'required' => true,
             'filters' => array(
                 array('name' => 'StripTags'),
-                array( 'name' => 'StringTrim'),
+                array('name' => 'StringTrim'),
             ),
             'validators' => array(
                 array(
@@ -178,9 +184,10 @@ class ShipmentFilter extends InputFilter
                         ),
                     ),
                 ),
-              
+
             ),
         ));
+
         $this->add(array(
             'name' => 'cart_id',
             'required' => true,
@@ -196,7 +203,7 @@ class ShipmentFilter extends InputFilter
                         ),
                     ),
                 ),
-              
+
             ),
         ));
     }

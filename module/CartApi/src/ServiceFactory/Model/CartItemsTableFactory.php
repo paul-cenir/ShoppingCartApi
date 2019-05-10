@@ -12,12 +12,11 @@ class CartItemsTableFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-   
         // Creation for table gateway instance
         $dbAdapter = $container->get('shoppingcart');
         $resultSetPrototype = new ResultSet();
         $resultSetPrototype->setArrayObjectPrototype(new CartItems());
-       
+
         // create TableGateway instance
         $tableGateway = new TableGateway(
             'cart_items',
@@ -25,7 +24,7 @@ class CartItemsTableFactory
             null,
             $resultSetPrototype
         );
-      
+
         // Create CartItemsTable instance
         return new CartItemsTable($tableGateway);
     }

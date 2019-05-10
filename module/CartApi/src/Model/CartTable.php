@@ -10,9 +10,7 @@ class CartTable
 
     public function __construct(TableGateway $tableGateway)
     {
-
         $this->tableGateway = $tableGateway;
-
     }
 
     public function getCartListByCustomerId($id)
@@ -39,8 +37,8 @@ class CartTable
 
     public function getCartByCustomerId($id)
     {
-        $cartDto =  $this->tableGateway->select(['customer_id' => $id])->current();
-        return $cartDto ? get_object_vars($cartDto) : $cartDto;
+        $cart = $this->tableGateway->select(['customer_id' => $id])->current();
+        return $cart ? get_object_vars($cart) : $cart;
     }
 
     public function addCart(Cart $cart)
@@ -57,7 +55,7 @@ class CartTable
 
     public function updateCartShippingById($data)
     {
-       
+
         return $this->tableGateway->update($data, ['cart_id' => $data['cart_id']]);
     }
 

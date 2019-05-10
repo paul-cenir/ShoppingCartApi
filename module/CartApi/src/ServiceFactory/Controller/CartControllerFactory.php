@@ -3,8 +3,8 @@
 namespace CartApi\ServiceFactory\Controller;
 
 use CartApi\Controller\CartController;
-use Psr\Container\ContainerInterface;
 use CartApi\Service\CartService;
+use Psr\Container\ContainerInterface;
 
 class CartControllerFactory
 {
@@ -12,7 +12,7 @@ class CartControllerFactory
     {
         $container = $container->getServiceLocator(); // remove if zf3
         $CartService = $container->get(CartService::class);
-      
+
         return new CartController($CartService);
     }
 }

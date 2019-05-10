@@ -1,32 +1,32 @@
 <?php
 namespace CartApi;
 
-use Zend\Mvc\Router\Http\Segment;
 use CartApi\Controller\CartController;
 use CartApi\Controller\CartItemController;
-use CartApi\ServiceFactory\Controller\CartControllerFactory;
-use CartApi\ServiceFactory\Controller\CartItemControllerFactory;
-use CartApi\ServiceFactory\Model\CartTableFactory;
-use CartApi\ServiceFactory\Model\CartItemsTableFactory;
-use CartApi\Model\CartTable;
-use CartApi\Model\Cart;
-use CustomerApi\Model\Customers;
-use CartApi\Model\CartItems;
-use CartApi\Model\CartItemsTable;
-use CartApi\Service\CartService;
-use CartApi\Service\CartItemService;
-use CartApi\ServiceFactory\Service\CartServiceFactory;
-use CartApi\ServiceFactory\Service\CartItemServiceFactory;
+use CartApi\Controller\ShipmentController;
 use CartApi\Filter\CartFilter;
 use CartApi\Filter\CartItemFilter;
-use CartApi\Controller\ShipmentController;
-use CartApi\ServiceFactory\Controller\ShipmentControllerFactory;
+use CartApi\Filter\ShipmentFilter;
+use CartApi\Model\Cart;
+use CartApi\Model\CartItems;
+use CartApi\Model\CartItemsTable;
+use CartApi\Model\CartTable;
 use CartApi\Model\Shipment;
 use CartApi\Model\ShipmentTable;
+use CartApi\ServiceFactory\Controller\CartControllerFactory;
+use CartApi\ServiceFactory\Controller\CartItemControllerFactory;
+use CartApi\ServiceFactory\Controller\ShipmentControllerFactory;
+use CartApi\ServiceFactory\Model\CartItemsTableFactory;
+use CartApi\ServiceFactory\Model\CartTableFactory;
 use CartApi\ServiceFactory\Model\ShipmentTableFactory;
-use CartApi\Service\ShipmentService;
+use CartApi\ServiceFactory\Service\CartItemServiceFactory;
+use CartApi\ServiceFactory\Service\CartServiceFactory;
 use CartApi\ServiceFactory\Service\ShipmentServiceFactory;
-use CartApi\Filter\ShipmentFilter;
+use CartApi\Service\CartItemService;
+use CartApi\Service\CartService;
+use CartApi\Service\ShipmentService;
+use CustomerApi\Model\Customers;
+use Zend\Mvc\Router\Http\Segment;
 
 return array(
     'router' => [
@@ -72,7 +72,6 @@ return array(
             ],
         ],
     ],
-
     'controllers' => array(
         'factories' => array(
             CartController::class => CartControllerFactory::class,

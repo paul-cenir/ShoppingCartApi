@@ -37,7 +37,5 @@ class LoginController extends AbstractRestfulController
                 "data" => $Token,
             ]);
         }
-
     }
-
 }

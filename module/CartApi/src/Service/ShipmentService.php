@@ -86,8 +86,8 @@ class ShipmentService
             $filteredParamData = $validation->getValues();
             $shipmentMethods = $this->ShipmentTable->getShipmentMethod();
             foreach ($shipmentMethods as $shipmentMethod) {
-                $data[$shipmentMethod] =  $this->computeShippingTotal($shipmentMethod,
-                $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id']));
+                $data[$shipmentMethod] = $this->computeShippingTotal($shipmentMethod,
+                    $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id']));
             }
             return array("isValid" => true, "data" => $data);
         }

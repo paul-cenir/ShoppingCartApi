@@ -40,16 +40,16 @@ class CartItemsTable
             "p.product_id = cart_items.product_id",
             array("*")
         )
-        ->where(array(
-            "cart_items.cart_id" => $id,
-        ));
+            ->where(array(
+                "cart_items.cart_id" => $id,
+            ));
 
         $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
         $data = array();
         foreach ($resultSet as $row) {
-            array_push($data,$row);
+            array_push($data, $row);
         }
-        return $data; 
+        return $data;
     }
 
     public function addCartItem(CartItems $cart)
@@ -91,11 +91,11 @@ class CartItemsTable
         $this->tableGateway->delete(['cart_id' => (int) $id]);
     }
 
-    public function getItemByProductIdAndCartId($productId,$cartId)
+    public function getItemByProductIdAndCartId($productId, $cartId)
     {
-        $data = $this->tableGateway->select(['product_id' => $productId,"cart_id" => $cartId])->current();
-       
-        return $data? get_object_vars($data) : $data;
+        $data = $this->tableGateway->select(['product_id' => $productId, "cart_id" => $cartId])->current();
+        
+        return $data ? get_object_vars($data) : $data;
     }
 
     public function updateCartItemById($data)

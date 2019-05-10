@@ -10,9 +10,7 @@ class ShipmentTable
 
     public function __construct(TableGateway $tableGateway)
     {
-
         $this->tableGateway = $tableGateway;
-
     }
 
     public function getShipmentList()
@@ -27,8 +25,7 @@ class ShipmentTable
         $select->columns(array('shipping_method' => new \Zend\Db\Sql\Expression('DISTINCT(shipping_method)')));
         $rowData = $this->tableGateway->selectWith($select)->toArray();
         foreach ($rowData as $row) {
-          $shippingMethod[] = $row['shipping_method'];
-           
+            $shippingMethod[] = $row['shipping_method'];
         }
         return $shippingMethod;
     }
