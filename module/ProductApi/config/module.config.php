@@ -3,6 +3,9 @@ namespace ProductApi;
 
 use ProductApi\Controller\ProductController;
 use ProductApi\Model\ProductsTable;
+use ProductApi\Filter\ProductFilter;
+use ProductApi\Service\ProductService;
+use ProductApi\ServiceFactory\Service\ProductServiceFactory;
 use ProductApi\ServiceFactory\Controller\ProductControllerFactory;
 use ProductApi\ServiceFactory\Model\ProductsTableFactory;
 use Zend\Mvc\Router\Http\Segment;
@@ -31,9 +34,10 @@ return array(
     'service_manager' => array(
         'factories' => array(
             ProductsTable::class => ProductsTableFactory::class,
+            ProductService::class => ProductServiceFactory::class,
         ),
         'invokables' => array(
-
+            ProductFilter::class => ProductFilter::class,
         ),
     ),
     'view_manager' => array(

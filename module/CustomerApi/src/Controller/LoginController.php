@@ -11,8 +11,7 @@ class LoginController extends AbstractRestfulController
 {
     private $LoginService;
     private $TokenService;
-    public function __construct
-    (
+    public function __construct(
         LoginService $LoginService,
         TokenService $TokenService
     ) {
@@ -22,20 +21,12 @@ class LoginController extends AbstractRestfulController
 
     public function create($data)
     {
-        $accountData = $this->LoginService->checkAccountIfValid($data);
-        if (!$accountData['isValid']) {
+        $user = $this->LoginService->login($data);
+        if (!$user['isValid']) {
             $this->getResponse()->setStatusCode(400);
-            return new JsonModel(["validation_error_messages" => $accountData['data']]);
+            return new JsonModel(["validation_error_messages" => $user['data']]);
         } else {
-            $Token = $this->TokenService->generateToken([
-                "customer_id" => $accountData['data']['customer_id'],
-                "first_name" => $accountData['data']['first_name'],
-                "last_name" => $accountData['data']['last_name'],
-            ]);
-
-            return new JsonModel([
-                "data" => $Token,
-            ]);
+            return new JsonModel(["data" => $user['data']]);
         }
     }
 }

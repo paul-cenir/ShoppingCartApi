@@ -39,7 +39,7 @@ class LoginFilter extends InputFilter
                     'options' => array(
                         'pattern' => '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
                         'messages' => array(
-                            \Zend\Validator\Regex::INVALID => 'Your error message.',
+                            \Zend\Validator\Regex::INVALID => 'Invalid email',
                         ),
                     ),
                 ),

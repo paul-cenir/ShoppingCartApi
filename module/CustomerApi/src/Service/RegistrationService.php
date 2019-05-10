@@ -40,11 +40,11 @@ class RegistrationService extends AbstractRestfulController
         }
         $this->Customers->exchangeArray($filteredParamData);
         $customerId = $this->CustomersTable->registerCustomer($this->Customers);
-        $Token = $this->TokenService->generateToken([
+        $accessToken = $this->TokenService->generateToken([
             "customer_id" => $customerId,
             "first_name" => $filteredParamData['first_name'],
             "last_name" => $filteredParamData['last_name'],
         ]);
-        return array("isValid" => true, "data" => $Token);
+        return array("isValid" => true, "data" => $accessToken);
     }
 }

@@ -4,19 +4,25 @@ namespace CustomerApi\Service;
 
 use CustomerApi\Filter\LoginFilter;
 use CustomerApi\Model\CustomersTable;
+use CustomerApi\Service\TokenService;
 
 class LoginService
 {
     private $CustomersTable;
     private $LoginFilter;
-    public function __construct(CustomersTable $CustomersTable, LoginFilter $LoginFilter)
-    {
+    private $TokenService;
+    public function __construct(
+        CustomersTable $CustomersTable,
+        LoginFilter $LoginFilter,
+        TokenService $TokenService
+    ) {
         $this->CustomersTable = $CustomersTable;
         $this->LoginFilter = $LoginFilter;
+        $this->TokenService = $TokenService;
 
     }
 
-    public function checkAccountIfValid($params)
+    public function login($params)
     {
         $this->LoginFilter->setData($params);
         if (!$this->LoginFilter->isValid()) {
@@ -25,11 +31,13 @@ class LoginService
         }
         $filteredParamData = $this->LoginFilter->getValues();
         $customerData = $this->CustomersTable->getCustomerByEmail($filteredParamData['email']);
-        $filteredParamData['customer_id'] = $customerData['customer_id'];
-        $filteredParamData['first_name'] = $customerData['first_name'];
-        $filteredParamData['last_name'] = $customerData['last_name'];
         if ($customerData['password'] === $filteredParamData['password']) {
-            return array("isValid" => true, "data" => $filteredParamData);
+            $accessToken = $this->TokenService->generateToken([
+                "customer_id" => $customerData['customer_id'],
+                "first_name" => $customerData['first_name'],
+                "last_name" => $customerData['last_name'],
+            ]);
+            return array("isValid" => true, "data" => $accessToken);
         } else {
             return array("isValid" => false, "data" => "Account does not exist");
         }
