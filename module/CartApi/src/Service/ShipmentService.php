@@ -31,7 +31,7 @@ class ShipmentService
 
     public function computeShippingTotal($shippingMethod, $totalWeight)
     {
-        $roundedTotalWeight = round($totalWeight);
+        $roundedTotalWeight = ceil($totalWeight);
         $shippingTotal = [];
         $heaviestWeight = $this->ShipmentTable->getHeaviestWeightByShippingMethod($shippingMethod);
         $shipmentList = $this->ShipmentTable->getShipmentList();
