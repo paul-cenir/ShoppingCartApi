@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CustomerApi\ServiceFactory\Service;
-
 
 use CustomerApi\Service\TokenService;
 use Psr\Container\ContainerInterface;

@@ -41,7 +41,7 @@ class RegistrationFilter extends InputFilter
                     'options' => array(
                         'pattern' => '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
                         'messages' => array(
-                            \Zend\Validator\Regex::INVALID => 'Your error message.',
+                            \Zend\Validator\Regex::INVALID => 'Invalid email.',
                         ),
                     ),
                 ),
@@ -133,7 +133,7 @@ class RegistrationFilter extends InputFilter
                     'options' => array(
                         'pattern' => '/^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/',
                         'messages' => array(
-                            \Zend\Validator\Regex::INVALID => 'Your error message.',
+                            \Zend\Validator\Regex::INVALID => 'Invalid phone number.',
                         ),
                     ),
                 ),

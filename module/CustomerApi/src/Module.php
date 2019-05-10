@@ -17,14 +17,12 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-
         $sm = $e->getApplication()->getServiceManager();
-
-          // attach auth listener on every controller dispatch event
-          $eventManager->getSharedManager()->attach(
+        // attach auth listener on every controller dispatch event
+        $eventManager->getSharedManager()->attach(
             'SecuredController',
             'dispatch',
             function ($e) use ($sm) {
@@ -33,7 +31,6 @@ class Module
             },
             2
         );
-      
     }
 
     public function getConfig()

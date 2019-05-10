@@ -56,7 +56,7 @@ class CartFilter extends InputFilter
                     'options' => array(
                         'pattern' => '/^[0-9]+$/',
                         'messages' => array(
-                            \Zend\Validator\Regex::INVALID => 'Your error message.',
+                            \Zend\Validator\Regex::INVALID => 'Digits only',
                         ),
                     ),
                 ),

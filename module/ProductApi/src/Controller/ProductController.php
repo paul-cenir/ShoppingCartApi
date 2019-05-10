@@ -8,8 +8,6 @@ use Zend\View\Model\JsonModel;
 
 class ProductController extends AbstractRestfulController
 {
-    // protected $eventIdentifier = 'SecuredController';
-
     private $ProductsTable;
 
     public function __construct(ProductsTable $ProductsTable)

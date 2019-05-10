@@ -19,6 +19,5 @@ class RegistrationServiceFactory
         $Customers = $container->get(Customers::class);
 
         return new RegistrationService($CustomersTable, $RegistrationFilter, $TokenService, $Customers);
-
     }
 }

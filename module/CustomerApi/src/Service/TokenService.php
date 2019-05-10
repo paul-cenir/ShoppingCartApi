@@ -1,9 +1,4 @@
 <?php
-/**
- * Class TokenService
- * @package Customer\Service
- * @author Prince Gaylord Gamilde <prince.g@digitalroominc.com>
- */
 
 namespace CustomerApi\Service;
 
@@ -93,7 +88,7 @@ EOD;
             } catch (\Exception $e) {
                 $decoded = false;
             }
-            $customerData = $decoded ? get_object_vars($decoded): $decoded;
+            $customerData = $decoded ? get_object_vars($decoded) : $decoded;
             $customeData = $customerData['data'] ? get_object_vars($customerData['data']) : $customerData['data'];
             $customer_id = (int) $customeData['customer_id'];
         } else {

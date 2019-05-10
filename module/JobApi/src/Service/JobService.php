@@ -67,7 +67,6 @@ class JobService
         if (!$this->JobFilter->isValid()) {
             return array("isValid" => false, "data" => $this->JobFilter->getMessages());
         }
-
         $filteredParamData = $this->JobFilter->getValues();
         $cart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
         if (!$cart) {
@@ -87,7 +86,6 @@ class JobService
 
             }
         }
-
     }
 
     public function addJobAndUpdateStockQty($params, $accessToken)
@@ -99,7 +97,6 @@ class JobService
 
     public function getJob($params)
     {
-
         $jobData = array("job_order_id" => $params);
         $validation = $this->JobFilter->getJobFilter()->setData($jobData);
 

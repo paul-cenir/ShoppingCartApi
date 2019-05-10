@@ -12,9 +12,7 @@ class JobTable
 
     public function __construct(TableGateway $tableGateway)
     {
-
         $this->tableGateway = $tableGateway;
-
     }
 
     public function getJobByJobId($id)
@@ -55,4 +53,3 @@ class JobTable
         return $this->tableGateway->getLastInsertValue();
     }
 }
-

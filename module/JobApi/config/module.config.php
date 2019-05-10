@@ -1,19 +1,18 @@
 <?php
 namespace JobApi;
 
-use Zend\Mvc\Router\Http\Segment;
 use JobApi\Controller\JobController;
-use JobApi\ServiceFactory\Controller\JobControllerFactory;
-use JobApi\ServiceFactory\Model\JobTableFactory;
-use JobApi\ServiceFactory\Model\JobItemsTableFactory;
-use JobApi\Model\JobTable;
+use JobApi\Filter\JobFilter;
 use JobApi\Model\Job;
 use JobApi\Model\JobItems;
 use JobApi\Model\JobItemsTable;
-use JobApi\Service\JobService;
+use JobApi\Model\JobTable;
+use JobApi\ServiceFactory\Controller\JobControllerFactory;
+use JobApi\ServiceFactory\Model\JobItemsTableFactory;
+use JobApi\ServiceFactory\Model\JobTableFactory;
 use JobApi\ServiceFactory\Service\JobServiceFactory;
-use JobApi\Filter\JobFilter;
-
+use JobApi\Service\JobService;
+use Zend\Mvc\Router\Http\Segment;
 
 return array(
     'router' => [

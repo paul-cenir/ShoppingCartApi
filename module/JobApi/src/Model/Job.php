@@ -53,7 +53,6 @@ class Job
         $this->shipping_city = !empty($data['shipping_city']) ? $data['shipping_city'] : '';
         $this->shipping_state = !empty($data['shipping_state']) ? $data['shipping_state'] : '';
         $this->shipping_country = !empty($data['shipping_country']) ? $data['shipping_country'] : '';
-
     }
 
     public function getArrayCopy()

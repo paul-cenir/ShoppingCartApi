@@ -21,14 +21,11 @@ return array(
             ],
         ],
     ],
-
     'controllers' => array(
         'factories' => array(
             ProductController::class => ProductControllerFactory::class,
         ),
-
         'invokables' => array(
-
         ),
     ),
     'service_manager' => array(

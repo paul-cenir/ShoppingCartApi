@@ -12,9 +12,7 @@ class JobItemsTable
 
     public function __construct(TableGateway $tableGateway)
     {
-
         $this->tableGateway = $tableGateway;
-
     }
 
     public function getJobItemList($id)
@@ -75,15 +73,15 @@ class JobItemsTable
             "p.product_id = job_items.product_id",
             array("*")
         )
-        ->where(array(
-            "job_items.job_order_id" => $id,
-        ));
+            ->where(array(
+                "job_items.job_order_id" => $id,
+            ));
 
         $resultSet = $this->tableGateway->selectWith($select)->getDataSource();
         $data = array();
         foreach ($resultSet as $row) {
-            array_push($data,$row);
+            array_push($data, $row);
         }
-        return $data; 
+        return $data;
     }
 }

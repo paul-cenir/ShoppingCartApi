@@ -28,7 +28,7 @@ class JobController extends AbstractRestfulController
     public function create($data)
     {
         $accessToken = $this->getRequest()->getHeader('Authorization');
-        $jobDetails = $this->JobService->addJobAndUpdateStockQty($data,$accessToken);
+        $jobDetails = $this->JobService->addJobAndUpdateStockQty($data, $accessToken);
         if (!$jobDetails['isValid']) {
             $this->getResponse()->setStatusCode(400);
             return new JsonModel(["validation_error_messages" => $jobDetails['data']]);
@@ -47,10 +47,4 @@ class JobController extends AbstractRestfulController
             return new JsonModel($job);
         }
     }
-
-    public function getList()
-    {
-        $this->JobService->addJobAndUpdateStockQty(11);
-    }
-
 }
