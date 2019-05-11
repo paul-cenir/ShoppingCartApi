@@ -61,11 +61,13 @@ class CartService
             if ($productDetails['stock_qty'] < $filteredParamData['qty']) {
                 return array("isValid" => false, "data" => "insufficient stock");
             }
+            //move this line inside existing cart
             if ($customer) {
                 $cartData = array_merge($customer, $filteredParamData);
             } else {
                 $cartData = $filteredParamData;
                 $this->Customers->exchangeArray([]);
+                //remove exchange array of customer 
                 $cartData = array_merge(get_object_vars($this->Customers), $filteredParamData);
             }
             $price = $productDetails['price'] * $filteredParamData['qty'];
@@ -75,6 +77,7 @@ class CartService
             $cartItemData['weight'] = $weight;
             $existingCart = $this->CartTable->getCartByCartId($filteredParamData['cart_id']);
             if (!$existingCart) {
+                //add customer id
                 $cartData['sub_total'] = $price;
                 $cartData['total_amount'] = $price;
                 $this->Cart->exchangeArray($cartData);
@@ -101,6 +104,7 @@ class CartService
                     $this->CartItems->exchangeArray($cartItemData);
                     $CartItem = $this->CartItemsTable->addCartItem($this->CartItems);
                 }
+                //move adding of item in other service
                 $subTotal = $this->CartItemsTable->computeCartTotalPriceByCartId($filteredParamData['cart_id']);
                 $totalWeight = $this->CartItemsTable->computeCartTotalWeightByCartId($filteredParamData['cart_id']);
                 $existingCart = get_object_vars($existingCart);
